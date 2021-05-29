@@ -1,0 +1,12 @@
+bison -d -v -r all pi_parser.y
+flex pi_lex.l
+gcc -o mycomp pi_parser.tab.c lex.yy.c cgen.c -lfl
+./mycomp< ../test_files/myprog.pi >../test_files/myprog.c
+
+##-------------
+##RUN ONLY FLEX
+##-------------
+
+flex pi_lex.l
+gcc lex.yy.c -lfl
+./a.out < ./test_files/myprog.pi 

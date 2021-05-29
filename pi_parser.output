@@ -1,0 +1,674 @@
+Terminals unused in grammar
+
+    KW_REAL
+    KW_IF
+    KW_ELSE
+    KW_FOR
+    KW_WHILE
+    KW_BREAK
+    KW_CONTINUE
+    KW_NIL
+    KW_AND
+    KW_OR
+    KW_NOT
+    KW_RETURN
+    POWER
+    EQ
+    NEQ
+    LT
+    LE
+    GT
+    GE
+
+
+Grammar
+
+    0 $accept: program $end
+
+    1 program: decl_list KW_FUNC KW_BEGIN '(' ')' '{' body '}'
+
+    2 decl_list: decl_list decl
+    3          | decl
+
+    4 decl: constDeclaration ';'
+    5     | varDeclaration ';'
+
+    6 body: %empty
+
+    7 constDeclaration: KW_CONST constAssignments dataType
+
+    8 constAssignments: assignment
+    9                 | constAssignments ',' assignment
+
+   10 varDeclaration: KW_VAR varAssignments dataType
+
+   11 varAssignments: varAssignment
+   12               | varAssignments ',' varAssignment
+
+   13 varAssignment: assignment
+   14              | IDENTIFIER
+   15              | IDENTIFIER '[' INTEGER ']'
+   16              | IDENTIFIER '[' ']'
+
+   17 assignment: IDENTIFIER ASSIGN expr
+   18           | IDENTIFIER '[' INTEGER ']' ASSIGN expr
+   19           | IDENTIFIER '[' ']' ASSIGN expr
+
+   20 expr: value
+
+   21 value: INTEGER
+   22      | BOOL
+   23      | REAL
+   24      | STRING
+
+   25 dataType: KW_INT
+   26         | KW_BOOL
+   27         | KW_STRING
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    '(' (40) 1
+    ')' (41) 1
+    ',' (44) 9 12
+    ';' (59) 4 5
+    '[' (91) 15 16 18 19
+    ']' (93) 15 16 18 19
+    '{' (123) 1
+    '}' (125) 1
+    error (256)
+    KW_INT (258) 25
+    KW_REAL (259)
+    KW_STRING (260) 27
+    KW_BOOL (261) 26
+    BOOL <crepr> (262) 22
+    KW_VAR (263) 10
+    KW_CONST (264) 7
+    KW_IF (265)
+    KW_ELSE (266)
+    KW_FOR (267)
+    KW_WHILE (268)
+    KW_BREAK (269)
+    KW_CONTINUE (270)
+    KW_FUNC (271) 1
+    KW_NIL (272)
+    KW_AND (273)
+    KW_OR (274)
+    KW_NOT (275)
+    KW_RETURN (276)
+    KW_BEGIN (277) 1
+    ASSIGN (278) 17 18 19
+    STRING <crepr> (279) 24
+    INTEGER <crepr> (280) 15 18 21
+    REAL <crepr> (281) 23
+    IDENTIFIER <crepr> (282) 14 15 16 17 18 19
+    POWER (283)
+    EQ (284)
+    NEQ (285)
+    LT (286)
+    LE (287)
+    GT (288)
+    GE (289)
+
+
+Nonterminals, with rules where they appear
+
+    $accept (43)
+        on left: 0
+    program (44)
+        on left: 1
+        on right: 0
+    decl_list <crepr> (45)
+        on left: 2 3
+        on right: 1 2
+    decl <crepr> (46)
+        on left: 4 5
+        on right: 2 3
+    body <crepr> (47)
+        on left: 6
+        on right: 1
+    constDeclaration <crepr> (48)
+        on left: 7
+        on right: 4
+    constAssignments <crepr> (49)
+        on left: 8 9
+        on right: 7 9
+    varDeclaration <crepr> (50)
+        on left: 10
+        on right: 5
+    varAssignments <crepr> (51)
+        on left: 11 12
+        on right: 10 12
+    varAssignment <crepr> (52)
+        on left: 13 14 15 16
+        on right: 11 12
+    assignment <crepr> (53)
+        on left: 17 18 19
+        on right: 8 9 13
+    expr <crepr> (54)
+        on left: 20
+        on right: 17 18 19
+    value <crepr> (55)
+        on left: 21 22 23 24
+        on right: 20
+    dataType <crepr> (56)
+        on left: 25 26 27
+        on right: 7 10
+
+
+State 0
+
+    0 $accept: . program $end
+    1 program: . decl_list KW_FUNC KW_BEGIN '(' ')' '{' body '}'
+    2 decl_list: . decl_list decl
+    3          | . decl
+    4 decl: . constDeclaration ';'
+    5     | . varDeclaration ';'
+    7 constDeclaration: . KW_CONST constAssignments dataType
+   10 varDeclaration: . KW_VAR varAssignments dataType
+
+    KW_VAR    shift, and go to state 1
+    KW_CONST  shift, and go to state 2
+
+    program           go to state 3
+    decl_list         go to state 4
+    decl              go to state 5
+    constDeclaration  go to state 6
+    varDeclaration    go to state 7
+
+
+State 1
+
+   10 varDeclaration: KW_VAR . varAssignments dataType
+   11 varAssignments: . varAssignment
+   12               | . varAssignments ',' varAssignment
+   13 varAssignment: . assignment
+   14              | . IDENTIFIER
+   15              | . IDENTIFIER '[' INTEGER ']'
+   16              | . IDENTIFIER '[' ']'
+   17 assignment: . IDENTIFIER ASSIGN expr
+   18           | . IDENTIFIER '[' INTEGER ']' ASSIGN expr
+   19           | . IDENTIFIER '[' ']' ASSIGN expr
+
+    IDENTIFIER  shift, and go to state 8
+
+    varAssignments  go to state 9
+    varAssignment   go to state 10
+    assignment      go to state 11
+
+
+State 2
+
+    7 constDeclaration: KW_CONST . constAssignments dataType
+    8 constAssignments: . assignment
+    9                 | . constAssignments ',' assignment
+   17 assignment: . IDENTIFIER ASSIGN expr
+   18           | . IDENTIFIER '[' INTEGER ']' ASSIGN expr
+   19           | . IDENTIFIER '[' ']' ASSIGN expr
+
+    IDENTIFIER  shift, and go to state 12
+
+    constAssignments  go to state 13
+    assignment        go to state 14
+
+
+State 3
+
+    0 $accept: program . $end
+
+    $end  shift, and go to state 15
+
+
+State 4
+
+    1 program: decl_list . KW_FUNC KW_BEGIN '(' ')' '{' body '}'
+    2 decl_list: decl_list . decl
+    4 decl: . constDeclaration ';'
+    5     | . varDeclaration ';'
+    7 constDeclaration: . KW_CONST constAssignments dataType
+   10 varDeclaration: . KW_VAR varAssignments dataType
+
+    KW_VAR    shift, and go to state 1
+    KW_CONST  shift, and go to state 2
+    KW_FUNC   shift, and go to state 16
+
+    decl              go to state 17
+    constDeclaration  go to state 6
+    varDeclaration    go to state 7
+
+
+State 5
+
+    3 decl_list: decl .
+
+    $default  reduce using rule 3 (decl_list)
+
+
+State 6
+
+    4 decl: constDeclaration . ';'
+
+    ';'  shift, and go to state 18
+
+
+State 7
+
+    5 decl: varDeclaration . ';'
+
+    ';'  shift, and go to state 19
+
+
+State 8
+
+   14 varAssignment: IDENTIFIER .  [KW_INT, KW_STRING, KW_BOOL, ',']
+   15              | IDENTIFIER . '[' INTEGER ']'
+   16              | IDENTIFIER . '[' ']'
+   17 assignment: IDENTIFIER . ASSIGN expr
+   18           | IDENTIFIER . '[' INTEGER ']' ASSIGN expr
+   19           | IDENTIFIER . '[' ']' ASSIGN expr
+
+    ASSIGN  shift, and go to state 20
+    '['     shift, and go to state 21
+
+    $default  reduce using rule 14 (varAssignment)
+
+
+State 9
+
+   10 varDeclaration: KW_VAR varAssignments . dataType
+   12 varAssignments: varAssignments . ',' varAssignment
+   25 dataType: . KW_INT
+   26         | . KW_BOOL
+   27         | . KW_STRING
+
+    KW_INT     shift, and go to state 22
+    KW_STRING  shift, and go to state 23
+    KW_BOOL    shift, and go to state 24
+    ','        shift, and go to state 25
+
+    dataType  go to state 26
+
+
+State 10
+
+   11 varAssignments: varAssignment .
+
+    $default  reduce using rule 11 (varAssignments)
+
+
+State 11
+
+   13 varAssignment: assignment .
+
+    $default  reduce using rule 13 (varAssignment)
+
+
+State 12
+
+   17 assignment: IDENTIFIER . ASSIGN expr
+   18           | IDENTIFIER . '[' INTEGER ']' ASSIGN expr
+   19           | IDENTIFIER . '[' ']' ASSIGN expr
+
+    ASSIGN  shift, and go to state 20
+    '['     shift, and go to state 27
+
+
+State 13
+
+    7 constDeclaration: KW_CONST constAssignments . dataType
+    9 constAssignments: constAssignments . ',' assignment
+   25 dataType: . KW_INT
+   26         | . KW_BOOL
+   27         | . KW_STRING
+
+    KW_INT     shift, and go to state 22
+    KW_STRING  shift, and go to state 23
+    KW_BOOL    shift, and go to state 24
+    ','        shift, and go to state 28
+
+    dataType  go to state 29
+
+
+State 14
+
+    8 constAssignments: assignment .
+
+    $default  reduce using rule 8 (constAssignments)
+
+
+State 15
+
+    0 $accept: program $end .
+
+    $default  accept
+
+
+State 16
+
+    1 program: decl_list KW_FUNC . KW_BEGIN '(' ')' '{' body '}'
+
+    KW_BEGIN  shift, and go to state 30
+
+
+State 17
+
+    2 decl_list: decl_list decl .
+
+    $default  reduce using rule 2 (decl_list)
+
+
+State 18
+
+    4 decl: constDeclaration ';' .
+
+    $default  reduce using rule 4 (decl)
+
+
+State 19
+
+    5 decl: varDeclaration ';' .
+
+    $default  reduce using rule 5 (decl)
+
+
+State 20
+
+   17 assignment: IDENTIFIER ASSIGN . expr
+   20 expr: . value
+   21 value: . INTEGER
+   22      | . BOOL
+   23      | . REAL
+   24      | . STRING
+
+    BOOL     shift, and go to state 31
+    STRING   shift, and go to state 32
+    INTEGER  shift, and go to state 33
+    REAL     shift, and go to state 34
+
+    expr   go to state 35
+    value  go to state 36
+
+
+State 21
+
+   15 varAssignment: IDENTIFIER '[' . INTEGER ']'
+   16              | IDENTIFIER '[' . ']'
+   18 assignment: IDENTIFIER '[' . INTEGER ']' ASSIGN expr
+   19           | IDENTIFIER '[' . ']' ASSIGN expr
+
+    INTEGER  shift, and go to state 37
+    ']'      shift, and go to state 38
+
+
+State 22
+
+   25 dataType: KW_INT .
+
+    $default  reduce using rule 25 (dataType)
+
+
+State 23
+
+   27 dataType: KW_STRING .
+
+    $default  reduce using rule 27 (dataType)
+
+
+State 24
+
+   26 dataType: KW_BOOL .
+
+    $default  reduce using rule 26 (dataType)
+
+
+State 25
+
+   12 varAssignments: varAssignments ',' . varAssignment
+   13 varAssignment: . assignment
+   14              | . IDENTIFIER
+   15              | . IDENTIFIER '[' INTEGER ']'
+   16              | . IDENTIFIER '[' ']'
+   17 assignment: . IDENTIFIER ASSIGN expr
+   18           | . IDENTIFIER '[' INTEGER ']' ASSIGN expr
+   19           | . IDENTIFIER '[' ']' ASSIGN expr
+
+    IDENTIFIER  shift, and go to state 8
+
+    varAssignment  go to state 39
+    assignment     go to state 11
+
+
+State 26
+
+   10 varDeclaration: KW_VAR varAssignments dataType .
+
+    $default  reduce using rule 10 (varDeclaration)
+
+
+State 27
+
+   18 assignment: IDENTIFIER '[' . INTEGER ']' ASSIGN expr
+   19           | IDENTIFIER '[' . ']' ASSIGN expr
+
+    INTEGER  shift, and go to state 40
+    ']'      shift, and go to state 41
+
+
+State 28
+
+    9 constAssignments: constAssignments ',' . assignment
+   17 assignment: . IDENTIFIER ASSIGN expr
+   18           | . IDENTIFIER '[' INTEGER ']' ASSIGN expr
+   19           | . IDENTIFIER '[' ']' ASSIGN expr
+
+    IDENTIFIER  shift, and go to state 12
+
+    assignment  go to state 42
+
+
+State 29
+
+    7 constDeclaration: KW_CONST constAssignments dataType .
+
+    $default  reduce using rule 7 (constDeclaration)
+
+
+State 30
+
+    1 program: decl_list KW_FUNC KW_BEGIN . '(' ')' '{' body '}'
+
+    '('  shift, and go to state 43
+
+
+State 31
+
+   22 value: BOOL .
+
+    $default  reduce using rule 22 (value)
+
+
+State 32
+
+   24 value: STRING .
+
+    $default  reduce using rule 24 (value)
+
+
+State 33
+
+   21 value: INTEGER .
+
+    $default  reduce using rule 21 (value)
+
+
+State 34
+
+   23 value: REAL .
+
+    $default  reduce using rule 23 (value)
+
+
+State 35
+
+   17 assignment: IDENTIFIER ASSIGN expr .
+
+    $default  reduce using rule 17 (assignment)
+
+
+State 36
+
+   20 expr: value .
+
+    $default  reduce using rule 20 (expr)
+
+
+State 37
+
+   15 varAssignment: IDENTIFIER '[' INTEGER . ']'
+   18 assignment: IDENTIFIER '[' INTEGER . ']' ASSIGN expr
+
+    ']'  shift, and go to state 44
+
+
+State 38
+
+   16 varAssignment: IDENTIFIER '[' ']' .  [KW_INT, KW_STRING, KW_BOOL, ',']
+   19 assignment: IDENTIFIER '[' ']' . ASSIGN expr
+
+    ASSIGN  shift, and go to state 45
+
+    $default  reduce using rule 16 (varAssignment)
+
+
+State 39
+
+   12 varAssignments: varAssignments ',' varAssignment .
+
+    $default  reduce using rule 12 (varAssignments)
+
+
+State 40
+
+   18 assignment: IDENTIFIER '[' INTEGER . ']' ASSIGN expr
+
+    ']'  shift, and go to state 46
+
+
+State 41
+
+   19 assignment: IDENTIFIER '[' ']' . ASSIGN expr
+
+    ASSIGN  shift, and go to state 45
+
+
+State 42
+
+    9 constAssignments: constAssignments ',' assignment .
+
+    $default  reduce using rule 9 (constAssignments)
+
+
+State 43
+
+    1 program: decl_list KW_FUNC KW_BEGIN '(' . ')' '{' body '}'
+
+    ')'  shift, and go to state 47
+
+
+State 44
+
+   15 varAssignment: IDENTIFIER '[' INTEGER ']' .  [KW_INT, KW_STRING, KW_BOOL, ',']
+   18 assignment: IDENTIFIER '[' INTEGER ']' . ASSIGN expr
+
+    ASSIGN  shift, and go to state 48
+
+    $default  reduce using rule 15 (varAssignment)
+
+
+State 45
+
+   19 assignment: IDENTIFIER '[' ']' ASSIGN . expr
+   20 expr: . value
+   21 value: . INTEGER
+   22      | . BOOL
+   23      | . REAL
+   24      | . STRING
+
+    BOOL     shift, and go to state 31
+    STRING   shift, and go to state 32
+    INTEGER  shift, and go to state 33
+    REAL     shift, and go to state 34
+
+    expr   go to state 49
+    value  go to state 36
+
+
+State 46
+
+   18 assignment: IDENTIFIER '[' INTEGER ']' . ASSIGN expr
+
+    ASSIGN  shift, and go to state 48
+
+
+State 47
+
+    1 program: decl_list KW_FUNC KW_BEGIN '(' ')' . '{' body '}'
+
+    '{'  shift, and go to state 50
+
+
+State 48
+
+   18 assignment: IDENTIFIER '[' INTEGER ']' ASSIGN . expr
+   20 expr: . value
+   21 value: . INTEGER
+   22      | . BOOL
+   23      | . REAL
+   24      | . STRING
+
+    BOOL     shift, and go to state 31
+    STRING   shift, and go to state 32
+    INTEGER  shift, and go to state 33
+    REAL     shift, and go to state 34
+
+    expr   go to state 51
+    value  go to state 36
+
+
+State 49
+
+   19 assignment: IDENTIFIER '[' ']' ASSIGN expr .
+
+    $default  reduce using rule 19 (assignment)
+
+
+State 50
+
+    1 program: decl_list KW_FUNC KW_BEGIN '(' ')' '{' . body '}'
+    6 body: . %empty
+
+    $default  reduce using rule 6 (body)
+
+    body  go to state 52
+
+
+State 51
+
+   18 assignment: IDENTIFIER '[' INTEGER ']' ASSIGN expr .
+
+    $default  reduce using rule 18 (assignment)
+
+
+State 52
+
+    1 program: decl_list KW_FUNC KW_BEGIN '(' ')' '{' body . '}'
+
+    '}'  shift, and go to state 53
+
+
+State 53
+
+    1 program: decl_list KW_FUNC KW_BEGIN '(' ')' '{' body '}' .
+
+    $default  reduce using rule 1 (program)
