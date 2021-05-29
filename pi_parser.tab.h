@@ -80,7 +80,8 @@ extern int yydebug;
     LT = 286,
     LE = 287,
     GT = 288,
-    GE = 289
+    GE = 289,
+    REDUCE_PRIORITY = 290
   };
 #endif
 
@@ -92,7 +93,7 @@ union YYSTYPE
 
 	char* crepr;
 
-#line 96 "pi_parser.tab.h"
+#line 97 "pi_parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

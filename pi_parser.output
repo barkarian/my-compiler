@@ -4,9 +4,6 @@ Terminals unused in grammar
     KW_NIL
 
 
-State 131 conflicts: 1 shift/reduce
-
-
 Grammar
 
     0 $accept: program $end
@@ -76,84 +73,86 @@ Grammar
    48     | expr KW_AND expr
    49     | expr KW_OR expr
    50     | KW_NOT expr
-   51     | '(' expr ')'
+   51     | '+' expr
+   52     | '-' expr
+   53     | '(' expr ')'
 
-   52 value: INTEGER
-   53      | BOOL
-   54      | REAL
-   55      | STRING
+   54 value: INTEGER
+   55      | BOOL
+   56      | REAL
+   57      | STRING
 
-   56 dataType: KW_INT
-   57         | KW_BOOL
-   58         | KW_STRING
+   58 dataType: KW_INT
+   59         | KW_BOOL
+   60         | KW_STRING
 
-   59 statementList: statementComplex
-   60              | statementList statementComplex
+   61 statementList: statementComplex
+   62              | statementList statementComplex
 
-   61 statementComplex: ';'
-   62                 | statement ';'
-   63                 | '{' statementList '}'
-   64                 | statementFor
-   65                 | statementWhile
-   66                 | statementIf
-   67                 | KW_BREAK ';'
-   68                 | KW_CONTINUE ';'
-   69                 | KW_RETURN expr ';'
-   70                 | KW_RETURN ';'
+   63 statementComplex: ';'
+   64                 | statement ';'
+   65                 | '{' statementList '}'
+   66                 | statementFor
+   67                 | statementWhile
+   68                 | statementIf
+   69                 | KW_BREAK ';'
+   70                 | KW_CONTINUE ';'
+   71                 | KW_RETURN expr ';'
+   72                 | KW_RETURN ';'
 
-   71 statement: IDENTIFIER ASSIGN expr
-   72          | expr
+   73 statement: IDENTIFIER ASSIGN expr
+   74          | expr
 
-   73 statementFor: KW_FOR '(' statement ';' expr ';' statement ')' statementComplex
+   75 statementFor: KW_FOR '(' statement ';' expr ';' statement ')' statementComplex
 
-   74 statementWhile: KW_WHILE '(' expr ')' statementComplex
+   76 statementWhile: KW_WHILE '(' expr ')' statementComplex
 
-   75 statementIf: KW_IF '(' expr ')' statementComplex
-   76            | statementIf KW_ELSE statementComplex
+   77 statementIf: KW_IF '(' expr ')' statementComplex
+   78            | KW_IF '(' expr ')' statementComplex KW_ELSE statementComplex
 
 
 Terminals, with rules where they appear
 
     $end (0) 0
     '%' (37) 40
-    '(' (40) 1 22 34 35 51 73 74 75
-    ')' (41) 1 22 34 35 51 73 74 75
+    '(' (40) 1 22 34 35 53 75 76 77 78
+    ')' (41) 1 22 34 35 53 75 76 77 78
     '*' (42) 38
-    '+' (43) 36
+    '+' (43) 36 51
     ',' (44) 14 17 25 30
-    '-' (45) 37
+    '-' (45) 37 52
     '/' (47) 39
-    ';' (59) 4 5 6 9 10 61 62 67 68 69 70 73
+    ';' (59) 4 5 6 9 10 63 64 69 70 71 72 75
     '[' (91) 20 21 27 28 33
     ']' (93) 20 21 27 28 33
-    '{' (123) 1 22 63
-    '}' (125) 1 22 63
+    '{' (123) 1 22 65
+    '}' (125) 1 22 65
     error (256)
-    KW_INT (258) 56
+    KW_INT (258) 58
     KW_REAL (259)
-    KW_STRING (260) 58
-    KW_BOOL (261) 57
-    BOOL <crepr> (262) 53
+    KW_STRING (260) 60
+    KW_BOOL (261) 59
+    BOOL <crepr> (262) 55
     KW_VAR (263) 15
     KW_CONST (264) 12
-    KW_IF (265) 75
-    KW_ELSE (266) 76
-    KW_FOR (267) 73
-    KW_WHILE (268) 74
-    KW_BREAK (269) 67
-    KW_CONTINUE (270) 68
+    KW_IF (265) 77 78
+    KW_ELSE (266) 78
+    KW_FOR (267) 75
+    KW_WHILE (268) 76
+    KW_BREAK (269) 69
+    KW_CONTINUE (270) 70
     KW_FUNC (271) 1 22
     KW_NIL (272)
     KW_AND (273) 48
     KW_OR (274) 49
     KW_NOT (275) 50
-    KW_RETURN (276) 69 70
+    KW_RETURN (276) 71 72
     KW_BEGIN (277) 1
-    ASSIGN (278) 26 27 28 71
-    STRING <crepr> (279) 55
-    INTEGER <crepr> (280) 20 27 52
-    REAL <crepr> (281) 54
-    IDENTIFIER <crepr> (282) 19 20 21 22 24 25 26 27 28 32 33 34 35 71
+    ASSIGN (278) 26 27 28 73
+    STRING <crepr> (279) 57
+    INTEGER <crepr> (280) 20 27 54
+    REAL <crepr> (281) 56
+    IDENTIFIER <crepr> (282) 19 20 21 22 24 25 26 27 28 32 33 34 35 73
     POWER (283) 41
     EQ (284) 42
     NEQ (285) 43
@@ -161,84 +160,85 @@ Terminals, with rules where they appear
     LE (287) 44
     GT (288) 47
     GE (289) 46
+    REDUCE_PRIORITY (290)
 
 
 Nonterminals, with rules where they appear
 
-    $accept (48)
+    $accept (49)
         on left: 0
-    program (49)
+    program (50)
         on left: 1
         on right: 0
-    decl_list <crepr> (50)
+    decl_list <crepr> (51)
         on left: 2 3
         on right: 1 2
-    decl <crepr> (51)
+    decl <crepr> (52)
         on left: 4 5 6
         on right: 2 3
-    decl_list_body <crepr> (52)
+    decl_list_body <crepr> (53)
         on left: 7 8
         on right: 8 11
-    declInsideBody <crepr> (53)
+    declInsideBody <crepr> (54)
         on left: 9 10
         on right: 8
-    body <crepr> (54)
+    body <crepr> (55)
         on left: 11
         on right: 1 22
-    constDeclaration <crepr> (55)
+    constDeclaration <crepr> (56)
         on left: 12
         on right: 4 9
-    constAssignments <crepr> (56)
+    constAssignments <crepr> (57)
         on left: 13 14
         on right: 12 14
-    varDeclaration <crepr> (57)
+    varDeclaration <crepr> (58)
         on left: 15
         on right: 5 10
-    varAssignments <crepr> (58)
+    varAssignments <crepr> (59)
         on left: 16 17
         on right: 15 17
-    varAssignment <crepr> (59)
+    varAssignment <crepr> (60)
         on left: 18 19 20 21
         on right: 16 17
-    functionDeclaration <crepr> (60)
+    functionDeclaration <crepr> (61)
         on left: 22
         on right: 6
-    functionParameters <crepr> (61)
+    functionParameters <crepr> (62)
         on left: 23 24 25
         on right: 22 25
-    assignment <crepr> (62)
+    assignment <crepr> (63)
         on left: 26 27 28
         on right: 13 14 18
-    functionInputs <crepr> (63)
+    functionInputs <crepr> (64)
         on left: 29 30
         on right: 30 35
-    expr <crepr> (64)
-        on left: 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51
-        on right: 26 27 28 29 30 33 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 69 71 72 73 74 75
-    value <crepr> (65)
-        on left: 52 53 54 55
+    expr <crepr> (65)
+        on left: 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53
+        on right: 26 27 28 29 30 33 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 71 73 74 75 76 77 78
+    value <crepr> (66)
+        on left: 54 55 56 57
         on right: 31
-    dataType <crepr> (66)
-        on left: 56 57 58
+    dataType <crepr> (67)
+        on left: 58 59 60
         on right: 12 15 22 24 25
-    statementList <crepr> (67)
-        on left: 59 60
-        on right: 11 60 63
-    statementComplex <crepr> (68)
-        on left: 61 62 63 64 65 66 67 68 69 70
-        on right: 59 60 73 74 75 76
-    statement <crepr> (69)
-        on left: 71 72
-        on right: 62 73
-    statementFor <crepr> (70)
-        on left: 73
-        on right: 64
-    statementWhile <crepr> (71)
-        on left: 74
-        on right: 65
-    statementIf <crepr> (72)
-        on left: 75 76
-        on right: 66 76
+    statementList <crepr> (68)
+        on left: 61 62
+        on right: 11 62 65
+    statementComplex <crepr> (69)
+        on left: 63 64 65 66 67 68 69 70 71 72
+        on right: 61 62 75 76 77 78
+    statement <crepr> (70)
+        on left: 73 74
+        on right: 64 75
+    statementFor <crepr> (71)
+        on left: 75
+        on right: 66
+    statementWhile <crepr> (72)
+        on left: 76
+        on right: 67
+    statementIf <crepr> (73)
+        on left: 77 78
+        on right: 68
 
 
 State 0
@@ -383,9 +383,9 @@ State 11
 
    15 varDeclaration: KW_VAR varAssignments . dataType
    17 varAssignments: varAssignments . ',' varAssignment
-   56 dataType: . KW_INT
-   57         | . KW_BOOL
-   58         | . KW_STRING
+   58 dataType: . KW_INT
+   59         | . KW_BOOL
+   60         | . KW_STRING
 
     KW_INT     shift, and go to state 26
     KW_STRING  shift, and go to state 27
@@ -423,9 +423,9 @@ State 15
 
    12 constDeclaration: KW_CONST constAssignments . dataType
    14 constAssignments: constAssignments . ',' assignment
-   56 dataType: . KW_INT
-   57         | . KW_BOOL
-   58         | . KW_STRING
+   58 dataType: . KW_INT
+   59         | . KW_BOOL
+   60         | . KW_STRING
 
     KW_INT     shift, and go to state 26
     KW_STRING  shift, and go to state 27
@@ -516,11 +516,13 @@ State 24
    48     | . expr KW_AND expr
    49     | . expr KW_OR expr
    50     | . KW_NOT expr
-   51     | . '(' expr ')'
-   52 value: . INTEGER
-   53      | . BOOL
-   54      | . REAL
-   55      | . STRING
+   51     | . '+' expr
+   52     | . '-' expr
+   53     | . '(' expr ')'
+   54 value: . INTEGER
+   55      | . BOOL
+   56      | . REAL
+   57      | . STRING
 
     BOOL        shift, and go to state 36
     KW_NOT      shift, and go to state 37
@@ -528,10 +530,12 @@ State 24
     INTEGER     shift, and go to state 39
     REAL        shift, and go to state 40
     IDENTIFIER  shift, and go to state 41
-    '('         shift, and go to state 42
+    '+'         shift, and go to state 42
+    '-'         shift, and go to state 43
+    '('         shift, and go to state 44
 
-    expr   go to state 43
-    value  go to state 44
+    expr   go to state 45
+    value  go to state 46
 
 
 State 25
@@ -541,29 +545,29 @@ State 25
    27 assignment: IDENTIFIER '[' . INTEGER ']' ASSIGN expr
    28           | IDENTIFIER '[' . ']' ASSIGN expr
 
-    INTEGER  shift, and go to state 45
-    ']'      shift, and go to state 46
+    INTEGER  shift, and go to state 47
+    ']'      shift, and go to state 48
 
 
 State 26
 
-   56 dataType: KW_INT .
-
-    $default  reduce using rule 56 (dataType)
-
-
-State 27
-
-   58 dataType: KW_STRING .
+   58 dataType: KW_INT .
 
     $default  reduce using rule 58 (dataType)
 
 
+State 27
+
+   60 dataType: KW_STRING .
+
+    $default  reduce using rule 60 (dataType)
+
+
 State 28
 
-   57 dataType: KW_BOOL .
+   59 dataType: KW_BOOL .
 
-    $default  reduce using rule 57 (dataType)
+    $default  reduce using rule 59 (dataType)
 
 
 State 29
@@ -579,7 +583,7 @@ State 29
 
     IDENTIFIER  shift, and go to state 10
 
-    varAssignment  go to state 47
+    varAssignment  go to state 49
     assignment     go to state 13
 
 
@@ -595,8 +599,8 @@ State 31
    27 assignment: IDENTIFIER '[' . INTEGER ']' ASSIGN expr
    28           | IDENTIFIER '[' . ']' ASSIGN expr
 
-    INTEGER  shift, and go to state 48
-    ']'      shift, and go to state 49
+    INTEGER  shift, and go to state 50
+    ']'      shift, and go to state 51
 
 
 State 32
@@ -608,7 +612,7 @@ State 32
 
     IDENTIFIER  shift, and go to state 14
 
-    assignment  go to state 50
+    assignment  go to state 52
 
 
 State 33
@@ -625,25 +629,25 @@ State 34
    24                   | . IDENTIFIER dataType
    25                   | . functionParameters ',' IDENTIFIER dataType
 
-    IDENTIFIER  shift, and go to state 51
+    IDENTIFIER  shift, and go to state 53
 
     $default  reduce using rule 23 (functionParameters)
 
-    functionParameters  go to state 52
+    functionParameters  go to state 54
 
 
 State 35
 
     1 program: decl_list KW_FUNC KW_BEGIN . '(' ')' '{' body '}'
 
-    '('  shift, and go to state 53
+    '('  shift, and go to state 55
 
 
 State 36
 
-   53 value: BOOL .
+   55 value: BOOL .
 
-    $default  reduce using rule 53 (value)
+    $default  reduce using rule 55 (value)
 
 
 State 37
@@ -669,11 +673,13 @@ State 37
    49     | . expr KW_OR expr
    50     | . KW_NOT expr
    50     | KW_NOT . expr
-   51     | . '(' expr ')'
-   52 value: . INTEGER
-   53      | . BOOL
-   54      | . REAL
-   55      | . STRING
+   51     | . '+' expr
+   52     | . '-' expr
+   53     | . '(' expr ')'
+   54 value: . INTEGER
+   55      | . BOOL
+   56      | . REAL
+   57      | . STRING
 
     BOOL        shift, and go to state 36
     KW_NOT      shift, and go to state 37
@@ -681,31 +687,33 @@ State 37
     INTEGER     shift, and go to state 39
     REAL        shift, and go to state 40
     IDENTIFIER  shift, and go to state 41
-    '('         shift, and go to state 42
+    '+'         shift, and go to state 42
+    '-'         shift, and go to state 43
+    '('         shift, and go to state 44
 
-    expr   go to state 54
-    value  go to state 44
+    expr   go to state 56
+    value  go to state 46
 
 
 State 38
 
-   55 value: STRING .
+   57 value: STRING .
 
-    $default  reduce using rule 55 (value)
+    $default  reduce using rule 57 (value)
 
 
 State 39
 
-   52 value: INTEGER .
+   54 value: INTEGER .
 
-    $default  reduce using rule 52 (value)
+    $default  reduce using rule 54 (value)
 
 
 State 40
 
-   54 value: REAL .
+   56 value: REAL .
 
-    $default  reduce using rule 54 (value)
+    $default  reduce using rule 56 (value)
 
 
 State 41
@@ -715,8 +723,8 @@ State 41
    34     | IDENTIFIER . '(' ')'
    35     | IDENTIFIER . '(' functionInputs ')'
 
-    '('  shift, and go to state 55
-    '['  shift, and go to state 56
+    '('  shift, and go to state 57
+    '['  shift, and go to state 58
 
     $default  reduce using rule 32 (expr)
 
@@ -743,12 +751,14 @@ State 42
    48     | . expr KW_AND expr
    49     | . expr KW_OR expr
    50     | . KW_NOT expr
-   51     | . '(' expr ')'
-   51     | '(' . expr ')'
-   52 value: . INTEGER
-   53      | . BOOL
-   54      | . REAL
-   55      | . STRING
+   51     | . '+' expr
+   51     | '+' . expr
+   52     | . '-' expr
+   53     | . '(' expr ')'
+   54 value: . INTEGER
+   55      | . BOOL
+   56      | . REAL
+   57      | . STRING
 
     BOOL        shift, and go to state 36
     KW_NOT      shift, and go to state 37
@@ -756,13 +766,105 @@ State 42
     INTEGER     shift, and go to state 39
     REAL        shift, and go to state 40
     IDENTIFIER  shift, and go to state 41
-    '('         shift, and go to state 42
+    '+'         shift, and go to state 42
+    '-'         shift, and go to state 43
+    '('         shift, and go to state 44
 
-    expr   go to state 57
-    value  go to state 44
+    expr   go to state 59
+    value  go to state 46
 
 
 State 43
+
+   31 expr: . value
+   32     | . IDENTIFIER
+   33     | . IDENTIFIER '[' expr ']'
+   34     | . IDENTIFIER '(' ')'
+   35     | . IDENTIFIER '(' functionInputs ')'
+   36     | . expr '+' expr
+   37     | . expr '-' expr
+   38     | . expr '*' expr
+   39     | . expr '/' expr
+   40     | . expr '%' expr
+   41     | . expr POWER expr
+   42     | . expr EQ expr
+   43     | . expr NEQ expr
+   44     | . expr LE expr
+   45     | . expr LT expr
+   46     | . expr GE expr
+   47     | . expr GT expr
+   48     | . expr KW_AND expr
+   49     | . expr KW_OR expr
+   50     | . KW_NOT expr
+   51     | . '+' expr
+   52     | . '-' expr
+   52     | '-' . expr
+   53     | . '(' expr ')'
+   54 value: . INTEGER
+   55      | . BOOL
+   56      | . REAL
+   57      | . STRING
+
+    BOOL        shift, and go to state 36
+    KW_NOT      shift, and go to state 37
+    STRING      shift, and go to state 38
+    INTEGER     shift, and go to state 39
+    REAL        shift, and go to state 40
+    IDENTIFIER  shift, and go to state 41
+    '+'         shift, and go to state 42
+    '-'         shift, and go to state 43
+    '('         shift, and go to state 44
+
+    expr   go to state 60
+    value  go to state 46
+
+
+State 44
+
+   31 expr: . value
+   32     | . IDENTIFIER
+   33     | . IDENTIFIER '[' expr ']'
+   34     | . IDENTIFIER '(' ')'
+   35     | . IDENTIFIER '(' functionInputs ')'
+   36     | . expr '+' expr
+   37     | . expr '-' expr
+   38     | . expr '*' expr
+   39     | . expr '/' expr
+   40     | . expr '%' expr
+   41     | . expr POWER expr
+   42     | . expr EQ expr
+   43     | . expr NEQ expr
+   44     | . expr LE expr
+   45     | . expr LT expr
+   46     | . expr GE expr
+   47     | . expr GT expr
+   48     | . expr KW_AND expr
+   49     | . expr KW_OR expr
+   50     | . KW_NOT expr
+   51     | . '+' expr
+   52     | . '-' expr
+   53     | . '(' expr ')'
+   53     | '(' . expr ')'
+   54 value: . INTEGER
+   55      | . BOOL
+   56      | . REAL
+   57      | . STRING
+
+    BOOL        shift, and go to state 36
+    KW_NOT      shift, and go to state 37
+    STRING      shift, and go to state 38
+    INTEGER     shift, and go to state 39
+    REAL        shift, and go to state 40
+    IDENTIFIER  shift, and go to state 41
+    '+'         shift, and go to state 42
+    '-'         shift, and go to state 43
+    '('         shift, and go to state 44
+
+    expr   go to state 61
+    value  go to state 46
+
+
+State 45
 
    26 assignment: IDENTIFIER ASSIGN expr .  [KW_INT, KW_STRING, KW_BOOL, ',']
    36 expr: expr . '+' expr
@@ -780,108 +882,108 @@ State 43
    48     | expr . KW_AND expr
    49     | expr . KW_OR expr
 
-    KW_AND  shift, and go to state 58
-    KW_OR   shift, and go to state 59
-    POWER   shift, and go to state 60
-    EQ      shift, and go to state 61
-    NEQ     shift, and go to state 62
-    LT      shift, and go to state 63
-    LE      shift, and go to state 64
-    GT      shift, and go to state 65
-    GE      shift, and go to state 66
-    '+'     shift, and go to state 67
-    '-'     shift, and go to state 68
-    '*'     shift, and go to state 69
-    '/'     shift, and go to state 70
-    '%'     shift, and go to state 71
+    KW_AND  shift, and go to state 62
+    KW_OR   shift, and go to state 63
+    POWER   shift, and go to state 64
+    EQ      shift, and go to state 65
+    NEQ     shift, and go to state 66
+    LT      shift, and go to state 67
+    LE      shift, and go to state 68
+    GT      shift, and go to state 69
+    GE      shift, and go to state 70
+    '+'     shift, and go to state 71
+    '-'     shift, and go to state 72
+    '*'     shift, and go to state 73
+    '/'     shift, and go to state 74
+    '%'     shift, and go to state 75
 
     $default  reduce using rule 26 (assignment)
 
 
-State 44
+State 46
 
    31 expr: value .
 
     $default  reduce using rule 31 (expr)
 
 
-State 45
+State 47
 
    20 varAssignment: IDENTIFIER '[' INTEGER . ']'
    27 assignment: IDENTIFIER '[' INTEGER . ']' ASSIGN expr
 
-    ']'  shift, and go to state 72
+    ']'  shift, and go to state 76
 
 
-State 46
+State 48
 
    21 varAssignment: IDENTIFIER '[' ']' .  [KW_INT, KW_STRING, KW_BOOL, ',']
    28 assignment: IDENTIFIER '[' ']' . ASSIGN expr
 
-    ASSIGN  shift, and go to state 73
+    ASSIGN  shift, and go to state 77
 
     $default  reduce using rule 21 (varAssignment)
 
 
-State 47
+State 49
 
    17 varAssignments: varAssignments ',' varAssignment .
 
     $default  reduce using rule 17 (varAssignments)
 
 
-State 48
+State 50
 
    27 assignment: IDENTIFIER '[' INTEGER . ']' ASSIGN expr
 
-    ']'  shift, and go to state 74
+    ']'  shift, and go to state 78
 
 
-State 49
+State 51
 
    28 assignment: IDENTIFIER '[' ']' . ASSIGN expr
 
-    ASSIGN  shift, and go to state 73
+    ASSIGN  shift, and go to state 77
 
 
-State 50
+State 52
 
    14 constAssignments: constAssignments ',' assignment .
 
     $default  reduce using rule 14 (constAssignments)
 
 
-State 51
+State 53
 
    24 functionParameters: IDENTIFIER . dataType
-   56 dataType: . KW_INT
-   57         | . KW_BOOL
-   58         | . KW_STRING
+   58 dataType: . KW_INT
+   59         | . KW_BOOL
+   60         | . KW_STRING
 
     KW_INT     shift, and go to state 26
     KW_STRING  shift, and go to state 27
     KW_BOOL    shift, and go to state 28
 
-    dataType  go to state 75
+    dataType  go to state 79
 
 
-State 52
+State 54
 
    22 functionDeclaration: KW_FUNC IDENTIFIER '(' functionParameters . ')' dataType '{' body '}'
    25 functionParameters: functionParameters . ',' IDENTIFIER dataType
 
-    ')'  shift, and go to state 76
-    ','  shift, and go to state 77
+    ')'  shift, and go to state 80
+    ','  shift, and go to state 81
 
 
-State 53
+State 55
 
     1 program: decl_list KW_FUNC KW_BEGIN '(' . ')' '{' body '}'
 
-    ')'  shift, and go to state 78
+    ')'  shift, and go to state 82
 
 
-State 54
+State 56
 
    36 expr: expr . '+' expr
    37     | expr . '-' expr
@@ -917,7 +1019,7 @@ State 54
     Conflict between rule 50 and token '%' resolved as reduce ('%' < KW_NOT).
 
 
-State 55
+State 57
 
    29 functionInputs: . expr
    30               | . functionInputs ',' expr
@@ -943,11 +1045,13 @@ State 55
    48     | . expr KW_AND expr
    49     | . expr KW_OR expr
    50     | . KW_NOT expr
-   51     | . '(' expr ')'
-   52 value: . INTEGER
-   53      | . BOOL
-   54      | . REAL
-   55      | . STRING
+   51     | . '+' expr
+   52     | . '-' expr
+   53     | . '(' expr ')'
+   54 value: . INTEGER
+   55      | . BOOL
+   56      | . REAL
+   57      | . STRING
 
     BOOL        shift, and go to state 36
     KW_NOT      shift, and go to state 37
@@ -955,15 +1059,17 @@ State 55
     INTEGER     shift, and go to state 39
     REAL        shift, and go to state 40
     IDENTIFIER  shift, and go to state 41
-    '('         shift, and go to state 42
-    ')'         shift, and go to state 79
+    '+'         shift, and go to state 42
+    '-'         shift, and go to state 43
+    '('         shift, and go to state 44
+    ')'         shift, and go to state 83
 
-    functionInputs  go to state 80
-    expr            go to state 81
-    value           go to state 44
+    functionInputs  go to state 84
+    expr            go to state 85
+    value           go to state 46
 
 
-State 56
+State 58
 
    31 expr: . value
    32     | . IDENTIFIER
@@ -986,11 +1092,13 @@ State 56
    48     | . expr KW_AND expr
    49     | . expr KW_OR expr
    50     | . KW_NOT expr
-   51     | . '(' expr ')'
-   52 value: . INTEGER
-   53      | . BOOL
-   54      | . REAL
-   55      | . STRING
+   51     | . '+' expr
+   52     | . '-' expr
+   53     | . '(' expr ')'
+   54 value: . INTEGER
+   55      | . BOOL
+   56      | . REAL
+   57      | . STRING
 
     BOOL        shift, and go to state 36
     KW_NOT      shift, and go to state 37
@@ -998,13 +1106,15 @@ State 56
     INTEGER     shift, and go to state 39
     REAL        shift, and go to state 40
     IDENTIFIER  shift, and go to state 41
-    '('         shift, and go to state 42
+    '+'         shift, and go to state 42
+    '-'         shift, and go to state 43
+    '('         shift, and go to state 44
 
-    expr   go to state 82
-    value  go to state 44
+    expr   go to state 86
+    value  go to state 46
 
 
-State 57
+State 59
 
    36 expr: expr . '+' expr
    37     | expr . '-' expr
@@ -1020,26 +1130,98 @@ State 57
    47     | expr . GT expr
    48     | expr . KW_AND expr
    49     | expr . KW_OR expr
-   51     | '(' expr . ')'
+   51     | '+' expr .  [KW_INT, KW_STRING, KW_BOOL, KW_AND, KW_OR, POWER, EQ, NEQ, LT, LE, GT, GE, '+', '-', '*', '/', '%', ')', ';', ',', ']']
 
-    KW_AND  shift, and go to state 58
-    KW_OR   shift, and go to state 59
-    POWER   shift, and go to state 60
-    EQ      shift, and go to state 61
-    NEQ     shift, and go to state 62
-    LT      shift, and go to state 63
-    LE      shift, and go to state 64
-    GT      shift, and go to state 65
-    GE      shift, and go to state 66
-    '+'     shift, and go to state 67
-    '-'     shift, and go to state 68
-    '*'     shift, and go to state 69
-    '/'     shift, and go to state 70
-    '%'     shift, and go to state 71
-    ')'     shift, and go to state 83
+    $default  reduce using rule 51 (expr)
+
+    Conflict between rule 51 and token KW_AND resolved as reduce (KW_AND < REDUCE_PRIORITY).
+    Conflict between rule 51 and token KW_OR resolved as reduce (KW_OR < REDUCE_PRIORITY).
+    Conflict between rule 51 and token POWER resolved as reduce (POWER < REDUCE_PRIORITY).
+    Conflict between rule 51 and token EQ resolved as reduce (EQ < REDUCE_PRIORITY).
+    Conflict between rule 51 and token NEQ resolved as reduce (NEQ < REDUCE_PRIORITY).
+    Conflict between rule 51 and token LT resolved as reduce (LT < REDUCE_PRIORITY).
+    Conflict between rule 51 and token LE resolved as reduce (LE < REDUCE_PRIORITY).
+    Conflict between rule 51 and token GT resolved as reduce (GT < REDUCE_PRIORITY).
+    Conflict between rule 51 and token GE resolved as reduce (GE < REDUCE_PRIORITY).
+    Conflict between rule 51 and token '+' resolved as reduce ('+' < REDUCE_PRIORITY).
+    Conflict between rule 51 and token '-' resolved as reduce ('-' < REDUCE_PRIORITY).
+    Conflict between rule 51 and token '*' resolved as reduce ('*' < REDUCE_PRIORITY).
+    Conflict between rule 51 and token '/' resolved as reduce ('/' < REDUCE_PRIORITY).
+    Conflict between rule 51 and token '%' resolved as reduce ('%' < REDUCE_PRIORITY).
 
 
-State 58
+State 60
+
+   36 expr: expr . '+' expr
+   37     | expr . '-' expr
+   38     | expr . '*' expr
+   39     | expr . '/' expr
+   40     | expr . '%' expr
+   41     | expr . POWER expr
+   42     | expr . EQ expr
+   43     | expr . NEQ expr
+   44     | expr . LE expr
+   45     | expr . LT expr
+   46     | expr . GE expr
+   47     | expr . GT expr
+   48     | expr . KW_AND expr
+   49     | expr . KW_OR expr
+   52     | '-' expr .  [KW_INT, KW_STRING, KW_BOOL, KW_AND, KW_OR, POWER, EQ, NEQ, LT, LE, GT, GE, '+', '-', '*', '/', '%', ')', ';', ',', ']']
+
+    $default  reduce using rule 52 (expr)
+
+    Conflict between rule 52 and token KW_AND resolved as reduce (KW_AND < REDUCE_PRIORITY).
+    Conflict between rule 52 and token KW_OR resolved as reduce (KW_OR < REDUCE_PRIORITY).
+    Conflict between rule 52 and token POWER resolved as reduce (POWER < REDUCE_PRIORITY).
+    Conflict between rule 52 and token EQ resolved as reduce (EQ < REDUCE_PRIORITY).
+    Conflict between rule 52 and token NEQ resolved as reduce (NEQ < REDUCE_PRIORITY).
+    Conflict between rule 52 and token LT resolved as reduce (LT < REDUCE_PRIORITY).
+    Conflict between rule 52 and token LE resolved as reduce (LE < REDUCE_PRIORITY).
+    Conflict between rule 52 and token GT resolved as reduce (GT < REDUCE_PRIORITY).
+    Conflict between rule 52 and token GE resolved as reduce (GE < REDUCE_PRIORITY).
+    Conflict between rule 52 and token '+' resolved as reduce ('+' < REDUCE_PRIORITY).
+    Conflict between rule 52 and token '-' resolved as reduce ('-' < REDUCE_PRIORITY).
+    Conflict between rule 52 and token '*' resolved as reduce ('*' < REDUCE_PRIORITY).
+    Conflict between rule 52 and token '/' resolved as reduce ('/' < REDUCE_PRIORITY).
+    Conflict between rule 52 and token '%' resolved as reduce ('%' < REDUCE_PRIORITY).
+
+
+State 61
+
+   36 expr: expr . '+' expr
+   37     | expr . '-' expr
+   38     | expr . '*' expr
+   39     | expr . '/' expr
+   40     | expr . '%' expr
+   41     | expr . POWER expr
+   42     | expr . EQ expr
+   43     | expr . NEQ expr
+   44     | expr . LE expr
+   45     | expr . LT expr
+   46     | expr . GE expr
+   47     | expr . GT expr
+   48     | expr . KW_AND expr
+   49     | expr . KW_OR expr
+   53     | '(' expr . ')'
+
+    KW_AND  shift, and go to state 62
+    KW_OR   shift, and go to state 63
+    POWER   shift, and go to state 64
+    EQ      shift, and go to state 65
+    NEQ     shift, and go to state 66
+    LT      shift, and go to state 67
+    LE      shift, and go to state 68
+    GT      shift, and go to state 69
+    GE      shift, and go to state 70
+    '+'     shift, and go to state 71
+    '-'     shift, and go to state 72
+    '*'     shift, and go to state 73
+    '/'     shift, and go to state 74
+    '%'     shift, and go to state 75
+    ')'     shift, and go to state 87
+
+
+State 62
 
    31 expr: . value
    32     | . IDENTIFIER
@@ -1062,11 +1244,13 @@ State 58
    48     | expr KW_AND . expr
    49     | . expr KW_OR expr
    50     | . KW_NOT expr
-   51     | . '(' expr ')'
-   52 value: . INTEGER
-   53      | . BOOL
-   54      | . REAL
-   55      | . STRING
+   51     | . '+' expr
+   52     | . '-' expr
+   53     | . '(' expr ')'
+   54 value: . INTEGER
+   55      | . BOOL
+   56      | . REAL
+   57      | . STRING
 
     BOOL        shift, and go to state 36
     KW_NOT      shift, and go to state 37
@@ -1074,13 +1258,15 @@ State 58
     INTEGER     shift, and go to state 39
     REAL        shift, and go to state 40
     IDENTIFIER  shift, and go to state 41
-    '('         shift, and go to state 42
+    '+'         shift, and go to state 42
+    '-'         shift, and go to state 43
+    '('         shift, and go to state 44
 
-    expr   go to state 84
-    value  go to state 44
+    expr   go to state 88
+    value  go to state 46
 
 
-State 59
+State 63
 
    31 expr: . value
    32     | . IDENTIFIER
@@ -1103,11 +1289,13 @@ State 59
    49     | . expr KW_OR expr
    49     | expr KW_OR . expr
    50     | . KW_NOT expr
-   51     | . '(' expr ')'
-   52 value: . INTEGER
-   53      | . BOOL
-   54      | . REAL
-   55      | . STRING
+   51     | . '+' expr
+   52     | . '-' expr
+   53     | . '(' expr ')'
+   54 value: . INTEGER
+   55      | . BOOL
+   56      | . REAL
+   57      | . STRING
 
     BOOL        shift, and go to state 36
     KW_NOT      shift, and go to state 37
@@ -1115,13 +1303,15 @@ State 59
     INTEGER     shift, and go to state 39
     REAL        shift, and go to state 40
     IDENTIFIER  shift, and go to state 41
-    '('         shift, and go to state 42
+    '+'         shift, and go to state 42
+    '-'         shift, and go to state 43
+    '('         shift, and go to state 44
 
-    expr   go to state 85
-    value  go to state 44
+    expr   go to state 89
+    value  go to state 46
 
 
-State 60
+State 64
 
    31 expr: . value
    32     | . IDENTIFIER
@@ -1144,11 +1334,13 @@ State 60
    48     | . expr KW_AND expr
    49     | . expr KW_OR expr
    50     | . KW_NOT expr
-   51     | . '(' expr ')'
-   52 value: . INTEGER
-   53      | . BOOL
-   54      | . REAL
-   55      | . STRING
+   51     | . '+' expr
+   52     | . '-' expr
+   53     | . '(' expr ')'
+   54 value: . INTEGER
+   55      | . BOOL
+   56      | . REAL
+   57      | . STRING
 
     BOOL        shift, and go to state 36
     KW_NOT      shift, and go to state 37
@@ -1156,13 +1348,15 @@ State 60
     INTEGER     shift, and go to state 39
     REAL        shift, and go to state 40
     IDENTIFIER  shift, and go to state 41
-    '('         shift, and go to state 42
+    '+'         shift, and go to state 42
+    '-'         shift, and go to state 43
+    '('         shift, and go to state 44
 
-    expr   go to state 86
-    value  go to state 44
+    expr   go to state 90
+    value  go to state 46
 
 
-State 61
+State 65
 
    31 expr: . value
    32     | . IDENTIFIER
@@ -1185,11 +1379,13 @@ State 61
    48     | . expr KW_AND expr
    49     | . expr KW_OR expr
    50     | . KW_NOT expr
-   51     | . '(' expr ')'
-   52 value: . INTEGER
-   53      | . BOOL
-   54      | . REAL
-   55      | . STRING
+   51     | . '+' expr
+   52     | . '-' expr
+   53     | . '(' expr ')'
+   54 value: . INTEGER
+   55      | . BOOL
+   56      | . REAL
+   57      | . STRING
 
     BOOL        shift, and go to state 36
     KW_NOT      shift, and go to state 37
@@ -1197,13 +1393,15 @@ State 61
     INTEGER     shift, and go to state 39
     REAL        shift, and go to state 40
     IDENTIFIER  shift, and go to state 41
-    '('         shift, and go to state 42
+    '+'         shift, and go to state 42
+    '-'         shift, and go to state 43
+    '('         shift, and go to state 44
 
-    expr   go to state 87
-    value  go to state 44
+    expr   go to state 91
+    value  go to state 46
 
 
-State 62
+State 66
 
    31 expr: . value
    32     | . IDENTIFIER
@@ -1226,11 +1424,13 @@ State 62
    48     | . expr KW_AND expr
    49     | . expr KW_OR expr
    50     | . KW_NOT expr
-   51     | . '(' expr ')'
-   52 value: . INTEGER
-   53      | . BOOL
-   54      | . REAL
-   55      | . STRING
+   51     | . '+' expr
+   52     | . '-' expr
+   53     | . '(' expr ')'
+   54 value: . INTEGER
+   55      | . BOOL
+   56      | . REAL
+   57      | . STRING
 
     BOOL        shift, and go to state 36
     KW_NOT      shift, and go to state 37
@@ -1238,13 +1438,15 @@ State 62
     INTEGER     shift, and go to state 39
     REAL        shift, and go to state 40
     IDENTIFIER  shift, and go to state 41
-    '('         shift, and go to state 42
+    '+'         shift, and go to state 42
+    '-'         shift, and go to state 43
+    '('         shift, and go to state 44
 
-    expr   go to state 88
-    value  go to state 44
+    expr   go to state 92
+    value  go to state 46
 
 
-State 63
+State 67
 
    31 expr: . value
    32     | . IDENTIFIER
@@ -1267,11 +1469,13 @@ State 63
    48     | . expr KW_AND expr
    49     | . expr KW_OR expr
    50     | . KW_NOT expr
-   51     | . '(' expr ')'
-   52 value: . INTEGER
-   53      | . BOOL
-   54      | . REAL
-   55      | . STRING
+   51     | . '+' expr
+   52     | . '-' expr
+   53     | . '(' expr ')'
+   54 value: . INTEGER
+   55      | . BOOL
+   56      | . REAL
+   57      | . STRING
 
     BOOL        shift, and go to state 36
     KW_NOT      shift, and go to state 37
@@ -1279,13 +1483,15 @@ State 63
     INTEGER     shift, and go to state 39
     REAL        shift, and go to state 40
     IDENTIFIER  shift, and go to state 41
-    '('         shift, and go to state 42
+    '+'         shift, and go to state 42
+    '-'         shift, and go to state 43
+    '('         shift, and go to state 44
 
-    expr   go to state 89
-    value  go to state 44
+    expr   go to state 93
+    value  go to state 46
 
 
-State 64
+State 68
 
    31 expr: . value
    32     | . IDENTIFIER
@@ -1308,11 +1514,13 @@ State 64
    48     | . expr KW_AND expr
    49     | . expr KW_OR expr
    50     | . KW_NOT expr
-   51     | . '(' expr ')'
-   52 value: . INTEGER
-   53      | . BOOL
-   54      | . REAL
-   55      | . STRING
+   51     | . '+' expr
+   52     | . '-' expr
+   53     | . '(' expr ')'
+   54 value: . INTEGER
+   55      | . BOOL
+   56      | . REAL
+   57      | . STRING
 
     BOOL        shift, and go to state 36
     KW_NOT      shift, and go to state 37
@@ -1320,13 +1528,15 @@ State 64
     INTEGER     shift, and go to state 39
     REAL        shift, and go to state 40
     IDENTIFIER  shift, and go to state 41
-    '('         shift, and go to state 42
+    '+'         shift, and go to state 42
+    '-'         shift, and go to state 43
+    '('         shift, and go to state 44
 
-    expr   go to state 90
-    value  go to state 44
+    expr   go to state 94
+    value  go to state 46
 
 
-State 65
+State 69
 
    31 expr: . value
    32     | . IDENTIFIER
@@ -1349,11 +1559,13 @@ State 65
    48     | . expr KW_AND expr
    49     | . expr KW_OR expr
    50     | . KW_NOT expr
-   51     | . '(' expr ')'
-   52 value: . INTEGER
-   53      | . BOOL
-   54      | . REAL
-   55      | . STRING
+   51     | . '+' expr
+   52     | . '-' expr
+   53     | . '(' expr ')'
+   54 value: . INTEGER
+   55      | . BOOL
+   56      | . REAL
+   57      | . STRING
 
     BOOL        shift, and go to state 36
     KW_NOT      shift, and go to state 37
@@ -1361,13 +1573,15 @@ State 65
     INTEGER     shift, and go to state 39
     REAL        shift, and go to state 40
     IDENTIFIER  shift, and go to state 41
-    '('         shift, and go to state 42
+    '+'         shift, and go to state 42
+    '-'         shift, and go to state 43
+    '('         shift, and go to state 44
 
-    expr   go to state 91
-    value  go to state 44
+    expr   go to state 95
+    value  go to state 46
 
 
-State 66
+State 70
 
    31 expr: . value
    32     | . IDENTIFIER
@@ -1390,11 +1604,13 @@ State 66
    48     | . expr KW_AND expr
    49     | . expr KW_OR expr
    50     | . KW_NOT expr
-   51     | . '(' expr ')'
-   52 value: . INTEGER
-   53      | . BOOL
-   54      | . REAL
-   55      | . STRING
+   51     | . '+' expr
+   52     | . '-' expr
+   53     | . '(' expr ')'
+   54 value: . INTEGER
+   55      | . BOOL
+   56      | . REAL
+   57      | . STRING
 
     BOOL        shift, and go to state 36
     KW_NOT      shift, and go to state 37
@@ -1402,13 +1618,15 @@ State 66
     INTEGER     shift, and go to state 39
     REAL        shift, and go to state 40
     IDENTIFIER  shift, and go to state 41
-    '('         shift, and go to state 42
+    '+'         shift, and go to state 42
+    '-'         shift, and go to state 43
+    '('         shift, and go to state 44
 
-    expr   go to state 92
-    value  go to state 44
+    expr   go to state 96
+    value  go to state 46
 
 
-State 67
+State 71
 
    31 expr: . value
    32     | . IDENTIFIER
@@ -1431,11 +1649,13 @@ State 67
    48     | . expr KW_AND expr
    49     | . expr KW_OR expr
    50     | . KW_NOT expr
-   51     | . '(' expr ')'
-   52 value: . INTEGER
-   53      | . BOOL
-   54      | . REAL
-   55      | . STRING
+   51     | . '+' expr
+   52     | . '-' expr
+   53     | . '(' expr ')'
+   54 value: . INTEGER
+   55      | . BOOL
+   56      | . REAL
+   57      | . STRING
 
     BOOL        shift, and go to state 36
     KW_NOT      shift, and go to state 37
@@ -1443,13 +1663,15 @@ State 67
     INTEGER     shift, and go to state 39
     REAL        shift, and go to state 40
     IDENTIFIER  shift, and go to state 41
-    '('         shift, and go to state 42
+    '+'         shift, and go to state 42
+    '-'         shift, and go to state 43
+    '('         shift, and go to state 44
 
-    expr   go to state 93
-    value  go to state 44
+    expr   go to state 97
+    value  go to state 46
 
 
-State 68
+State 72
 
    31 expr: . value
    32     | . IDENTIFIER
@@ -1472,11 +1694,13 @@ State 68
    48     | . expr KW_AND expr
    49     | . expr KW_OR expr
    50     | . KW_NOT expr
-   51     | . '(' expr ')'
-   52 value: . INTEGER
-   53      | . BOOL
-   54      | . REAL
-   55      | . STRING
+   51     | . '+' expr
+   52     | . '-' expr
+   53     | . '(' expr ')'
+   54 value: . INTEGER
+   55      | . BOOL
+   56      | . REAL
+   57      | . STRING
 
     BOOL        shift, and go to state 36
     KW_NOT      shift, and go to state 37
@@ -1484,13 +1708,15 @@ State 68
     INTEGER     shift, and go to state 39
     REAL        shift, and go to state 40
     IDENTIFIER  shift, and go to state 41
-    '('         shift, and go to state 42
+    '+'         shift, and go to state 42
+    '-'         shift, and go to state 43
+    '('         shift, and go to state 44
 
-    expr   go to state 94
-    value  go to state 44
+    expr   go to state 98
+    value  go to state 46
 
 
-State 69
+State 73
 
    31 expr: . value
    32     | . IDENTIFIER
@@ -1513,11 +1739,13 @@ State 69
    48     | . expr KW_AND expr
    49     | . expr KW_OR expr
    50     | . KW_NOT expr
-   51     | . '(' expr ')'
-   52 value: . INTEGER
-   53      | . BOOL
-   54      | . REAL
-   55      | . STRING
+   51     | . '+' expr
+   52     | . '-' expr
+   53     | . '(' expr ')'
+   54 value: . INTEGER
+   55      | . BOOL
+   56      | . REAL
+   57      | . STRING
 
     BOOL        shift, and go to state 36
     KW_NOT      shift, and go to state 37
@@ -1525,13 +1753,15 @@ State 69
     INTEGER     shift, and go to state 39
     REAL        shift, and go to state 40
     IDENTIFIER  shift, and go to state 41
-    '('         shift, and go to state 42
+    '+'         shift, and go to state 42
+    '-'         shift, and go to state 43
+    '('         shift, and go to state 44
 
-    expr   go to state 95
-    value  go to state 44
+    expr   go to state 99
+    value  go to state 46
 
 
-State 70
+State 74
 
    31 expr: . value
    32     | . IDENTIFIER
@@ -1554,11 +1784,13 @@ State 70
    48     | . expr KW_AND expr
    49     | . expr KW_OR expr
    50     | . KW_NOT expr
-   51     | . '(' expr ')'
-   52 value: . INTEGER
-   53      | . BOOL
-   54      | . REAL
-   55      | . STRING
+   51     | . '+' expr
+   52     | . '-' expr
+   53     | . '(' expr ')'
+   54 value: . INTEGER
+   55      | . BOOL
+   56      | . REAL
+   57      | . STRING
 
     BOOL        shift, and go to state 36
     KW_NOT      shift, and go to state 37
@@ -1566,13 +1798,15 @@ State 70
     INTEGER     shift, and go to state 39
     REAL        shift, and go to state 40
     IDENTIFIER  shift, and go to state 41
-    '('         shift, and go to state 42
+    '+'         shift, and go to state 42
+    '-'         shift, and go to state 43
+    '('         shift, and go to state 44
 
-    expr   go to state 96
-    value  go to state 44
+    expr   go to state 100
+    value  go to state 46
 
 
-State 71
+State 75
 
    31 expr: . value
    32     | . IDENTIFIER
@@ -1595,11 +1829,13 @@ State 71
    48     | . expr KW_AND expr
    49     | . expr KW_OR expr
    50     | . KW_NOT expr
-   51     | . '(' expr ')'
-   52 value: . INTEGER
-   53      | . BOOL
-   54      | . REAL
-   55      | . STRING
+   51     | . '+' expr
+   52     | . '-' expr
+   53     | . '(' expr ')'
+   54 value: . INTEGER
+   55      | . BOOL
+   56      | . REAL
+   57      | . STRING
 
     BOOL        shift, and go to state 36
     KW_NOT      shift, and go to state 37
@@ -1607,23 +1843,25 @@ State 71
     INTEGER     shift, and go to state 39
     REAL        shift, and go to state 40
     IDENTIFIER  shift, and go to state 41
-    '('         shift, and go to state 42
+    '+'         shift, and go to state 42
+    '-'         shift, and go to state 43
+    '('         shift, and go to state 44
 
-    expr   go to state 97
-    value  go to state 44
+    expr   go to state 101
+    value  go to state 46
 
 
-State 72
+State 76
 
    20 varAssignment: IDENTIFIER '[' INTEGER ']' .  [KW_INT, KW_STRING, KW_BOOL, ',']
    27 assignment: IDENTIFIER '[' INTEGER ']' . ASSIGN expr
 
-    ASSIGN  shift, and go to state 98
+    ASSIGN  shift, and go to state 102
 
     $default  reduce using rule 20 (varAssignment)
 
 
-State 73
+State 77
 
    28 assignment: IDENTIFIER '[' ']' ASSIGN . expr
    31 expr: . value
@@ -1646,11 +1884,13 @@ State 73
    48     | . expr KW_AND expr
    49     | . expr KW_OR expr
    50     | . KW_NOT expr
-   51     | . '(' expr ')'
-   52 value: . INTEGER
-   53      | . BOOL
-   54      | . REAL
-   55      | . STRING
+   51     | . '+' expr
+   52     | . '-' expr
+   53     | . '(' expr ')'
+   54 value: . INTEGER
+   55      | . BOOL
+   56      | . REAL
+   57      | . STRING
 
     BOOL        shift, and go to state 36
     KW_NOT      shift, and go to state 37
@@ -1658,71 +1898,73 @@ State 73
     INTEGER     shift, and go to state 39
     REAL        shift, and go to state 40
     IDENTIFIER  shift, and go to state 41
-    '('         shift, and go to state 42
+    '+'         shift, and go to state 42
+    '-'         shift, and go to state 43
+    '('         shift, and go to state 44
 
-    expr   go to state 99
-    value  go to state 44
+    expr   go to state 103
+    value  go to state 46
 
 
-State 74
+State 78
 
    27 assignment: IDENTIFIER '[' INTEGER ']' . ASSIGN expr
 
-    ASSIGN  shift, and go to state 98
+    ASSIGN  shift, and go to state 102
 
 
-State 75
+State 79
 
    24 functionParameters: IDENTIFIER dataType .
 
     $default  reduce using rule 24 (functionParameters)
 
 
-State 76
+State 80
 
    22 functionDeclaration: KW_FUNC IDENTIFIER '(' functionParameters ')' . dataType '{' body '}'
-   56 dataType: . KW_INT
-   57         | . KW_BOOL
-   58         | . KW_STRING
+   58 dataType: . KW_INT
+   59         | . KW_BOOL
+   60         | . KW_STRING
 
     KW_INT     shift, and go to state 26
     KW_STRING  shift, and go to state 27
     KW_BOOL    shift, and go to state 28
 
-    dataType  go to state 100
+    dataType  go to state 104
 
 
-State 77
+State 81
 
    25 functionParameters: functionParameters ',' . IDENTIFIER dataType
 
-    IDENTIFIER  shift, and go to state 101
+    IDENTIFIER  shift, and go to state 105
 
 
-State 78
+State 82
 
     1 program: decl_list KW_FUNC KW_BEGIN '(' ')' . '{' body '}'
 
-    '{'  shift, and go to state 102
+    '{'  shift, and go to state 106
 
 
-State 79
+State 83
 
    34 expr: IDENTIFIER '(' ')' .
 
     $default  reduce using rule 34 (expr)
 
 
-State 80
+State 84
 
    30 functionInputs: functionInputs . ',' expr
    35 expr: IDENTIFIER '(' functionInputs . ')'
 
-    ')'  shift, and go to state 103
-    ','  shift, and go to state 104
+    ')'  shift, and go to state 107
+    ','  shift, and go to state 108
 
 
-State 81
+State 85
 
    29 functionInputs: expr .  [')', ',']
    36 expr: expr . '+' expr
@@ -1740,25 +1982,25 @@ State 81
    48     | expr . KW_AND expr
    49     | expr . KW_OR expr
 
-    KW_AND  shift, and go to state 58
-    KW_OR   shift, and go to state 59
-    POWER   shift, and go to state 60
-    EQ      shift, and go to state 61
-    NEQ     shift, and go to state 62
-    LT      shift, and go to state 63
-    LE      shift, and go to state 64
-    GT      shift, and go to state 65
-    GE      shift, and go to state 66
-    '+'     shift, and go to state 67
-    '-'     shift, and go to state 68
-    '*'     shift, and go to state 69
-    '/'     shift, and go to state 70
-    '%'     shift, and go to state 71
+    KW_AND  shift, and go to state 62
+    KW_OR   shift, and go to state 63
+    POWER   shift, and go to state 64
+    EQ      shift, and go to state 65
+    NEQ     shift, and go to state 66
+    LT      shift, and go to state 67
+    LE      shift, and go to state 68
+    GT      shift, and go to state 69
+    GE      shift, and go to state 70
+    '+'     shift, and go to state 71
+    '-'     shift, and go to state 72
+    '*'     shift, and go to state 73
+    '/'     shift, and go to state 74
+    '%'     shift, and go to state 75
 
     $default  reduce using rule 29 (functionInputs)
 
 
-State 82
+State 86
 
    33 expr: IDENTIFIER '[' expr . ']'
    36     | expr . '+' expr
@@ -1776,31 +2018,31 @@ State 82
    48     | expr . KW_AND expr
    49     | expr . KW_OR expr
 
-    KW_AND  shift, and go to state 58
-    KW_OR   shift, and go to state 59
-    POWER   shift, and go to state 60
-    EQ      shift, and go to state 61
-    NEQ     shift, and go to state 62
-    LT      shift, and go to state 63
-    LE      shift, and go to state 64
-    GT      shift, and go to state 65
-    GE      shift, and go to state 66
-    '+'     shift, and go to state 67
-    '-'     shift, and go to state 68
-    '*'     shift, and go to state 69
-    '/'     shift, and go to state 70
-    '%'     shift, and go to state 71
-    ']'     shift, and go to state 105
+    KW_AND  shift, and go to state 62
+    KW_OR   shift, and go to state 63
+    POWER   shift, and go to state 64
+    EQ      shift, and go to state 65
+    NEQ     shift, and go to state 66
+    LT      shift, and go to state 67
+    LE      shift, and go to state 68
+    GT      shift, and go to state 69
+    GE      shift, and go to state 70
+    '+'     shift, and go to state 71
+    '-'     shift, and go to state 72
+    '*'     shift, and go to state 73
+    '/'     shift, and go to state 74
+    '%'     shift, and go to state 75
+    ']'     shift, and go to state 109
 
 
-State 83
+State 87
 
-   51 expr: '(' expr ')' .
+   53 expr: '(' expr ')' .
 
-    $default  reduce using rule 51 (expr)
+    $default  reduce using rule 53 (expr)
 
 
-State 84
+State 88
 
    36 expr: expr . '+' expr
    37     | expr . '-' expr
@@ -1818,18 +2060,18 @@ State 84
    48     | expr KW_AND expr .  [KW_INT, KW_STRING, KW_BOOL, KW_AND, KW_OR, ')', ';', ',', ']']
    49     | expr . KW_OR expr
 
-    POWER  shift, and go to state 60
-    EQ     shift, and go to state 61
-    NEQ    shift, and go to state 62
-    LT     shift, and go to state 63
-    LE     shift, and go to state 64
-    GT     shift, and go to state 65
-    GE     shift, and go to state 66
-    '+'    shift, and go to state 67
-    '-'    shift, and go to state 68
-    '*'    shift, and go to state 69
-    '/'    shift, and go to state 70
-    '%'    shift, and go to state 71
+    POWER  shift, and go to state 64
+    EQ     shift, and go to state 65
+    NEQ    shift, and go to state 66
+    LT     shift, and go to state 67
+    LE     shift, and go to state 68
+    GT     shift, and go to state 69
+    GE     shift, and go to state 70
+    '+'    shift, and go to state 71
+    '-'    shift, and go to state 72
+    '*'    shift, and go to state 73
+    '/'    shift, and go to state 74
+    '%'    shift, and go to state 75
 
     $default  reduce using rule 48 (expr)
 
@@ -1849,7 +2091,7 @@ State 84
     Conflict between rule 48 and token '%' resolved as shift (KW_AND < '%').
 
 
-State 85
+State 89
 
    36 expr: expr . '+' expr
    37     | expr . '-' expr
@@ -1867,19 +2109,19 @@ State 85
    49     | expr . KW_OR expr
    49     | expr KW_OR expr .  [KW_INT, KW_STRING, KW_BOOL, KW_OR, ')', ';', ',', ']']
 
-    KW_AND  shift, and go to state 58
-    POWER   shift, and go to state 60
-    EQ      shift, and go to state 61
-    NEQ     shift, and go to state 62
-    LT      shift, and go to state 63
-    LE      shift, and go to state 64
-    GT      shift, and go to state 65
-    GE      shift, and go to state 66
-    '+'     shift, and go to state 67
-    '-'     shift, and go to state 68
-    '*'     shift, and go to state 69
-    '/'     shift, and go to state 70
-    '%'     shift, and go to state 71
+    KW_AND  shift, and go to state 62
+    POWER   shift, and go to state 64
+    EQ      shift, and go to state 65
+    NEQ     shift, and go to state 66
+    LT      shift, and go to state 67
+    LE      shift, and go to state 68
+    GT      shift, and go to state 69
+    GE      shift, and go to state 70
+    '+'     shift, and go to state 71
+    '-'     shift, and go to state 72
+    '*'     shift, and go to state 73
+    '/'     shift, and go to state 74
+    '%'     shift, and go to state 75
 
     $default  reduce using rule 49 (expr)
 
@@ -1899,7 +2141,7 @@ State 85
     Conflict between rule 49 and token '%' resolved as shift (KW_OR < '%').
 
 
-State 86
+State 90
 
    36 expr: expr . '+' expr
    37     | expr . '-' expr
@@ -1917,7 +2159,7 @@ State 86
    48     | expr . KW_AND expr
    49     | expr . KW_OR expr
 
-    POWER  shift, and go to state 60
+    POWER  shift, and go to state 64
 
     $default  reduce using rule 41 (expr)
 
@@ -1937,7 +2179,7 @@ State 86
     Conflict between rule 41 and token '%' resolved as reduce ('%' < POWER).
 
 
-State 87
+State 91
 
    36 expr: expr . '+' expr
    37     | expr . '-' expr
@@ -1955,12 +2197,12 @@ State 87
    48     | expr . KW_AND expr
    49     | expr . KW_OR expr
 
-    POWER  shift, and go to state 60
-    '+'    shift, and go to state 67
-    '-'    shift, and go to state 68
-    '*'    shift, and go to state 69
-    '/'    shift, and go to state 70
-    '%'    shift, and go to state 71
+    POWER  shift, and go to state 64
+    '+'    shift, and go to state 71
+    '-'    shift, and go to state 72
+    '*'    shift, and go to state 73
+    '/'    shift, and go to state 74
+    '%'    shift, and go to state 75
 
     $default  reduce using rule 42 (expr)
 
@@ -1980,7 +2222,7 @@ State 87
     Conflict between rule 42 and token '%' resolved as shift (EQ < '%').
 
 
-State 88
+State 92
 
    36 expr: expr . '+' expr
    37     | expr . '-' expr
@@ -1998,12 +2240,12 @@ State 88
    48     | expr . KW_AND expr
    49     | expr . KW_OR expr
 
-    POWER  shift, and go to state 60
-    '+'    shift, and go to state 67
-    '-'    shift, and go to state 68
-    '*'    shift, and go to state 69
-    '/'    shift, and go to state 70
-    '%'    shift, and go to state 71
+    POWER  shift, and go to state 64
+    '+'    shift, and go to state 71
+    '-'    shift, and go to state 72
+    '*'    shift, and go to state 73
+    '/'    shift, and go to state 74
+    '%'    shift, and go to state 75
 
     $default  reduce using rule 43 (expr)
 
@@ -2023,7 +2265,7 @@ State 88
     Conflict between rule 43 and token '%' resolved as shift (NEQ < '%').
 
 
-State 89
+State 93
 
    36 expr: expr . '+' expr
    37     | expr . '-' expr
@@ -2041,12 +2283,12 @@ State 89
    48     | expr . KW_AND expr
    49     | expr . KW_OR expr
 
-    POWER  shift, and go to state 60
-    '+'    shift, and go to state 67
-    '-'    shift, and go to state 68
-    '*'    shift, and go to state 69
-    '/'    shift, and go to state 70
-    '%'    shift, and go to state 71
+    POWER  shift, and go to state 64
+    '+'    shift, and go to state 71
+    '-'    shift, and go to state 72
+    '*'    shift, and go to state 73
+    '/'    shift, and go to state 74
+    '%'    shift, and go to state 75
 
     $default  reduce using rule 45 (expr)
 
@@ -2066,7 +2308,7 @@ State 89
     Conflict between rule 45 and token '%' resolved as shift (LT < '%').
 
 
-State 90
+State 94
 
    36 expr: expr . '+' expr
    37     | expr . '-' expr
@@ -2084,12 +2326,12 @@ State 90
    48     | expr . KW_AND expr
    49     | expr . KW_OR expr
 
-    POWER  shift, and go to state 60
-    '+'    shift, and go to state 67
-    '-'    shift, and go to state 68
-    '*'    shift, and go to state 69
-    '/'    shift, and go to state 70
-    '%'    shift, and go to state 71
+    POWER  shift, and go to state 64
+    '+'    shift, and go to state 71
+    '-'    shift, and go to state 72
+    '*'    shift, and go to state 73
+    '/'    shift, and go to state 74
+    '%'    shift, and go to state 75
 
     $default  reduce using rule 44 (expr)
 
@@ -2109,7 +2351,7 @@ State 90
     Conflict between rule 44 and token '%' resolved as shift (LE < '%').
 
 
-State 91
+State 95
 
    36 expr: expr . '+' expr
    37     | expr . '-' expr
@@ -2127,12 +2369,12 @@ State 91
    48     | expr . KW_AND expr
    49     | expr . KW_OR expr
 
-    POWER  shift, and go to state 60
-    '+'    shift, and go to state 67
-    '-'    shift, and go to state 68
-    '*'    shift, and go to state 69
-    '/'    shift, and go to state 70
-    '%'    shift, and go to state 71
+    POWER  shift, and go to state 64
+    '+'    shift, and go to state 71
+    '-'    shift, and go to state 72
+    '*'    shift, and go to state 73
+    '/'    shift, and go to state 74
+    '%'    shift, and go to state 75
 
     $default  reduce using rule 47 (expr)
 
@@ -2152,7 +2394,7 @@ State 91
     Conflict between rule 47 and token '%' resolved as shift (GT < '%').
 
 
-State 92
+State 96
 
    36 expr: expr . '+' expr
    37     | expr . '-' expr
@@ -2170,12 +2412,12 @@ State 92
    48     | expr . KW_AND expr
    49     | expr . KW_OR expr
 
-    POWER  shift, and go to state 60
-    '+'    shift, and go to state 67
-    '-'    shift, and go to state 68
-    '*'    shift, and go to state 69
-    '/'    shift, and go to state 70
-    '%'    shift, and go to state 71
+    POWER  shift, and go to state 64
+    '+'    shift, and go to state 71
+    '-'    shift, and go to state 72
+    '*'    shift, and go to state 73
+    '/'    shift, and go to state 74
+    '%'    shift, and go to state 75
 
     $default  reduce using rule 46 (expr)
 
@@ -2195,7 +2437,7 @@ State 92
     Conflict between rule 46 and token '%' resolved as shift (GE < '%').
 
 
-State 93
+State 97
 
    36 expr: expr . '+' expr
    36     | expr '+' expr .  [KW_INT, KW_STRING, KW_BOOL, KW_AND, KW_OR, EQ, NEQ, LT, LE, GT, GE, '+', '-', ')', ';', ',', ']']
@@ -2213,10 +2455,10 @@ State 93
    48     | expr . KW_AND expr
    49     | expr . KW_OR expr
 
-    POWER  shift, and go to state 60
-    '*'    shift, and go to state 69
-    '/'    shift, and go to state 70
-    '%'    shift, and go to state 71
+    POWER  shift, and go to state 64
+    '*'    shift, and go to state 73
+    '/'    shift, and go to state 74
+    '%'    shift, and go to state 75
 
     $default  reduce using rule 36 (expr)
 
@@ -2236,7 +2478,7 @@ State 93
     Conflict between rule 36 and token '%' resolved as shift ('+' < '%').
 
 
-State 94
+State 98
 
    36 expr: expr . '+' expr
    37     | expr . '-' expr
@@ -2254,10 +2496,10 @@ State 94
    48     | expr . KW_AND expr
    49     | expr . KW_OR expr
 
-    POWER  shift, and go to state 60
-    '*'    shift, and go to state 69
-    '/'    shift, and go to state 70
-    '%'    shift, and go to state 71
+    POWER  shift, and go to state 64
+    '*'    shift, and go to state 73
+    '/'    shift, and go to state 74
+    '%'    shift, and go to state 75
 
     $default  reduce using rule 37 (expr)
 
@@ -2277,7 +2519,7 @@ State 94
     Conflict between rule 37 and token '%' resolved as shift ('-' < '%').
 
 
-State 95
+State 99
 
    36 expr: expr . '+' expr
    37     | expr . '-' expr
@@ -2295,7 +2537,7 @@ State 95
    48     | expr . KW_AND expr
    49     | expr . KW_OR expr
 
-    POWER  shift, and go to state 60
+    POWER  shift, and go to state 64
 
     $default  reduce using rule 38 (expr)
 
@@ -2315,7 +2557,7 @@ State 95
     Conflict between rule 38 and token '%' resolved as reduce (%left '%').
 
 
-State 96
+State 100
 
    36 expr: expr . '+' expr
    37     | expr . '-' expr
@@ -2333,7 +2575,7 @@ State 96
    48     | expr . KW_AND expr
    49     | expr . KW_OR expr
 
-    POWER  shift, and go to state 60
+    POWER  shift, and go to state 64
 
     $default  reduce using rule 39 (expr)
 
@@ -2353,7 +2595,7 @@ State 96
     Conflict between rule 39 and token '%' resolved as reduce (%left '%').
 
 
-State 97
+State 101
 
    36 expr: expr . '+' expr
    37     | expr . '-' expr
@@ -2371,7 +2613,7 @@ State 97
    48     | expr . KW_AND expr
    49     | expr . KW_OR expr
 
-    POWER  shift, and go to state 60
+    POWER  shift, and go to state 64
 
     $default  reduce using rule 40 (expr)
 
@@ -2391,7 +2633,7 @@ State 97
     Conflict between rule 40 and token '%' resolved as reduce (%left '%').
 
 
-State 98
+State 102
 
    27 assignment: IDENTIFIER '[' INTEGER ']' ASSIGN . expr
    31 expr: . value
@@ -2414,11 +2656,13 @@ State 98
    48     | . expr KW_AND expr
    49     | . expr KW_OR expr
    50     | . KW_NOT expr
-   51     | . '(' expr ')'
-   52 value: . INTEGER
-   53      | . BOOL
-   54      | . REAL
-   55      | . STRING
+   51     | . '+' expr
+   52     | . '-' expr
+   53     | . '(' expr ')'
+   54 value: . INTEGER
+   55      | . BOOL
+   56      | . REAL
+   57      | . STRING
 
     BOOL        shift, and go to state 36
     KW_NOT      shift, and go to state 37
@@ -2426,13 +2670,15 @@ State 98
     INTEGER     shift, and go to state 39
     REAL        shift, and go to state 40
     IDENTIFIER  shift, and go to state 41
-    '('         shift, and go to state 42
+    '+'         shift, and go to state 42
+    '-'         shift, and go to state 43
+    '('         shift, and go to state 44
 
-    expr   go to state 106
-    value  go to state 44
+    expr   go to state 110
+    value  go to state 46
 
 
-State 99
+State 103
 
    28 assignment: IDENTIFIER '[' ']' ASSIGN expr .  [KW_INT, KW_STRING, KW_BOOL, ',']
    36 expr: expr . '+' expr
@@ -2450,46 +2696,46 @@ State 99
    48     | expr . KW_AND expr
    49     | expr . KW_OR expr
 
-    KW_AND  shift, and go to state 58
-    KW_OR   shift, and go to state 59
-    POWER   shift, and go to state 60
-    EQ      shift, and go to state 61
-    NEQ     shift, and go to state 62
-    LT      shift, and go to state 63
-    LE      shift, and go to state 64
-    GT      shift, and go to state 65
-    GE      shift, and go to state 66
-    '+'     shift, and go to state 67
-    '-'     shift, and go to state 68
-    '*'     shift, and go to state 69
-    '/'     shift, and go to state 70
-    '%'     shift, and go to state 71
+    KW_AND  shift, and go to state 62
+    KW_OR   shift, and go to state 63
+    POWER   shift, and go to state 64
+    EQ      shift, and go to state 65
+    NEQ     shift, and go to state 66
+    LT      shift, and go to state 67
+    LE      shift, and go to state 68
+    GT      shift, and go to state 69
+    GE      shift, and go to state 70
+    '+'     shift, and go to state 71
+    '-'     shift, and go to state 72
+    '*'     shift, and go to state 73
+    '/'     shift, and go to state 74
+    '%'     shift, and go to state 75
 
     $default  reduce using rule 28 (assignment)
 
 
-State 100
+State 104
 
    22 functionDeclaration: KW_FUNC IDENTIFIER '(' functionParameters ')' dataType . '{' body '}'
 
-    '{'  shift, and go to state 107
+    '{'  shift, and go to state 111
 
 
-State 101
+State 105
 
    25 functionParameters: functionParameters ',' IDENTIFIER . dataType
-   56 dataType: . KW_INT
-   57         | . KW_BOOL
-   58         | . KW_STRING
+   58 dataType: . KW_INT
+   59         | . KW_BOOL
+   60         | . KW_STRING
 
     KW_INT     shift, and go to state 26
     KW_STRING  shift, and go to state 27
     KW_BOOL    shift, and go to state 28
 
-    dataType  go to state 108
+    dataType  go to state 112
 
 
-State 102
+State 106
 
     1 program: decl_list KW_FUNC KW_BEGIN '(' ')' '{' . body '}'
     7 decl_list_body: . %empty
@@ -2498,18 +2744,18 @@ State 102
 
     $default  reduce using rule 7 (decl_list_body)
 
-    decl_list_body  go to state 109
-    body            go to state 110
+    decl_list_body  go to state 113
+    body            go to state 114
 
 
-State 103
+State 107
 
    35 expr: IDENTIFIER '(' functionInputs ')' .
 
     $default  reduce using rule 35 (expr)
 
 
-State 104
+State 108
 
    30 functionInputs: functionInputs ',' . expr
    31 expr: . value
@@ -2532,11 +2778,13 @@ State 104
    48     | . expr KW_AND expr
    49     | . expr KW_OR expr
    50     | . KW_NOT expr
-   51     | . '(' expr ')'
-   52 value: . INTEGER
-   53      | . BOOL
-   54      | . REAL
-   55      | . STRING
+   51     | . '+' expr
+   52     | . '-' expr
+   53     | . '(' expr ')'
+   54 value: . INTEGER
+   55      | . BOOL
+   56      | . REAL
+   57      | . STRING
 
     BOOL        shift, and go to state 36
     KW_NOT      shift, and go to state 37
@@ -2544,20 +2792,22 @@ State 104
     INTEGER     shift, and go to state 39
     REAL        shift, and go to state 40
     IDENTIFIER  shift, and go to state 41
-    '('         shift, and go to state 42
+    '+'         shift, and go to state 42
+    '-'         shift, and go to state 43
+    '('         shift, and go to state 44
 
-    expr   go to state 111
-    value  go to state 44
+    expr   go to state 115
+    value  go to state 46
 
 
-State 105
+State 109
 
    33 expr: IDENTIFIER '[' expr ']' .
 
     $default  reduce using rule 33 (expr)
 
 
-State 106
+State 110
 
    27 assignment: IDENTIFIER '[' INTEGER ']' ASSIGN expr .  [KW_INT, KW_STRING, KW_BOOL, ',']
    36 expr: expr . '+' expr
@@ -2575,25 +2825,25 @@ State 106
    48     | expr . KW_AND expr
    49     | expr . KW_OR expr
 
-    KW_AND  shift, and go to state 58
-    KW_OR   shift, and go to state 59
-    POWER   shift, and go to state 60
-    EQ      shift, and go to state 61
-    NEQ     shift, and go to state 62
-    LT      shift, and go to state 63
-    LE      shift, and go to state 64
-    GT      shift, and go to state 65
-    GE      shift, and go to state 66
-    '+'     shift, and go to state 67
-    '-'     shift, and go to state 68
-    '*'     shift, and go to state 69
-    '/'     shift, and go to state 70
-    '%'     shift, and go to state 71
+    KW_AND  shift, and go to state 62
+    KW_OR   shift, and go to state 63
+    POWER   shift, and go to state 64
+    EQ      shift, and go to state 65
+    NEQ     shift, and go to state 66
+    LT      shift, and go to state 67
+    LE      shift, and go to state 68
+    GT      shift, and go to state 69
+    GE      shift, and go to state 70
+    '+'     shift, and go to state 71
+    '-'     shift, and go to state 72
+    '*'     shift, and go to state 73
+    '/'     shift, and go to state 74
+    '%'     shift, and go to state 75
 
     $default  reduce using rule 27 (assignment)
 
 
-State 107
+State 111
 
     7 decl_list_body: . %empty
     8               | . decl_list_body declInsideBody
@@ -2602,18 +2852,18 @@ State 107
 
     $default  reduce using rule 7 (decl_list_body)
 
-    decl_list_body  go to state 109
-    body            go to state 112
+    decl_list_body  go to state 113
+    body            go to state 116
 
 
-State 108
+State 112
 
    25 functionParameters: functionParameters ',' IDENTIFIER dataType .
 
     $default  reduce using rule 25 (functionParameters)
 
 
-State 109
+State 113
 
     8 decl_list_body: decl_list_body . declInsideBody
     9 declInsideBody: . constDeclaration ';'
@@ -2641,69 +2891,73 @@ State 109
    48     | . expr KW_AND expr
    49     | . expr KW_OR expr
    50     | . KW_NOT expr
-   51     | . '(' expr ')'
-   52 value: . INTEGER
-   53      | . BOOL
-   54      | . REAL
-   55      | . STRING
-   59 statementList: . statementComplex
-   60              | . statementList statementComplex
-   61 statementComplex: . ';'
-   62                 | . statement ';'
-   63                 | . '{' statementList '}'
-   64                 | . statementFor
-   65                 | . statementWhile
-   66                 | . statementIf
-   67                 | . KW_BREAK ';'
-   68                 | . KW_CONTINUE ';'
-   69                 | . KW_RETURN expr ';'
-   70                 | . KW_RETURN ';'
-   71 statement: . IDENTIFIER ASSIGN expr
-   72          | . expr
-   73 statementFor: . KW_FOR '(' statement ';' expr ';' statement ')' statementComplex
-   74 statementWhile: . KW_WHILE '(' expr ')' statementComplex
-   75 statementIf: . KW_IF '(' expr ')' statementComplex
-   76            | . statementIf KW_ELSE statementComplex
+   51     | . '+' expr
+   52     | . '-' expr
+   53     | . '(' expr ')'
+   54 value: . INTEGER
+   55      | . BOOL
+   56      | . REAL
+   57      | . STRING
+   61 statementList: . statementComplex
+   62              | . statementList statementComplex
+   63 statementComplex: . ';'
+   64                 | . statement ';'
+   65                 | . '{' statementList '}'
+   66                 | . statementFor
+   67                 | . statementWhile
+   68                 | . statementIf
+   69                 | . KW_BREAK ';'
+   70                 | . KW_CONTINUE ';'
+   71                 | . KW_RETURN expr ';'
+   72                 | . KW_RETURN ';'
+   73 statement: . IDENTIFIER ASSIGN expr
+   74          | . expr
+   75 statementFor: . KW_FOR '(' statement ';' expr ';' statement ')' statementComplex
+   76 statementWhile: . KW_WHILE '(' expr ')' statementComplex
+   77 statementIf: . KW_IF '(' expr ')' statementComplex
+   78            | . KW_IF '(' expr ')' statementComplex KW_ELSE statementComplex
 
     BOOL         shift, and go to state 36
     KW_VAR       shift, and go to state 1
     KW_CONST     shift, and go to state 2
-    KW_IF        shift, and go to state 113
-    KW_FOR       shift, and go to state 114
-    KW_WHILE     shift, and go to state 115
-    KW_BREAK     shift, and go to state 116
-    KW_CONTINUE  shift, and go to state 117
+    KW_IF        shift, and go to state 117
+    KW_FOR       shift, and go to state 118
+    KW_WHILE     shift, and go to state 119
+    KW_BREAK     shift, and go to state 120
+    KW_CONTINUE  shift, and go to state 121
     KW_NOT       shift, and go to state 37
-    KW_RETURN    shift, and go to state 118
+    KW_RETURN    shift, and go to state 122
     STRING       shift, and go to state 38
     INTEGER      shift, and go to state 39
     REAL         shift, and go to state 40
-    IDENTIFIER   shift, and go to state 119
-    '('          shift, and go to state 42
-    '{'          shift, and go to state 120
-    ';'          shift, and go to state 121
+    IDENTIFIER   shift, and go to state 123
+    '+'          shift, and go to state 42
+    '-'          shift, and go to state 43
+    '('          shift, and go to state 44
+    '{'          shift, and go to state 124
+    ';'          shift, and go to state 125
 
-    declInsideBody    go to state 122
-    constDeclaration  go to state 123
-    varDeclaration    go to state 124
-    expr              go to state 125
-    value             go to state 44
-    statementList     go to state 126
-    statementComplex  go to state 127
-    statement         go to state 128
-    statementFor      go to state 129
-    statementWhile    go to state 130
-    statementIf       go to state 131
+    declInsideBody    go to state 126
+    constDeclaration  go to state 127
+    varDeclaration    go to state 128
+    expr              go to state 129
+    value             go to state 46
+    statementList     go to state 130
+    statementComplex  go to state 131
+    statement         go to state 132
+    statementFor      go to state 133
+    statementWhile    go to state 134
+    statementIf       go to state 135
 
 
-State 110
+State 114
 
     1 program: decl_list KW_FUNC KW_BEGIN '(' ')' '{' body . '}'
 
-    '}'  shift, and go to state 132
+    '}'  shift, and go to state 136
 
 
-State 111
+State 115
 
    30 functionInputs: functionInputs ',' expr .  [')', ',']
    36 expr: expr . '+' expr
@@ -2721,67 +2975,68 @@ State 111
    48     | expr . KW_AND expr
    49     | expr . KW_OR expr
 
-    KW_AND  shift, and go to state 58
-    KW_OR   shift, and go to state 59
-    POWER   shift, and go to state 60
-    EQ      shift, and go to state 61
-    NEQ     shift, and go to state 62
-    LT      shift, and go to state 63
-    LE      shift, and go to state 64
-    GT      shift, and go to state 65
-    GE      shift, and go to state 66
-    '+'     shift, and go to state 67
-    '-'     shift, and go to state 68
-    '*'     shift, and go to state 69
-    '/'     shift, and go to state 70
-    '%'     shift, and go to state 71
+    KW_AND  shift, and go to state 62
+    KW_OR   shift, and go to state 63
+    POWER   shift, and go to state 64
+    EQ      shift, and go to state 65
+    NEQ     shift, and go to state 66
+    LT      shift, and go to state 67
+    LE      shift, and go to state 68
+    GT      shift, and go to state 69
+    GE      shift, and go to state 70
+    '+'     shift, and go to state 71
+    '-'     shift, and go to state 72
+    '*'     shift, and go to state 73
+    '/'     shift, and go to state 74
+    '%'     shift, and go to state 75
 
     $default  reduce using rule 30 (functionInputs)
 
 
-State 112
+State 116
 
    22 functionDeclaration: KW_FUNC IDENTIFIER '(' functionParameters ')' dataType '{' body . '}'
 
-    '}'  shift, and go to state 133
-
-
-State 113
-
-   75 statementIf: KW_IF . '(' expr ')' statementComplex
-
-    '('  shift, and go to state 134
-
-
-State 114
-
-   73 statementFor: KW_FOR . '(' statement ';' expr ';' statement ')' statementComplex
-
-    '('  shift, and go to state 135
-
-
-State 115
-
-   74 statementWhile: KW_WHILE . '(' expr ')' statementComplex
-
-    '('  shift, and go to state 136
-
-
-State 116
-
-   67 statementComplex: KW_BREAK . ';'
-
-    ';'  shift, and go to state 137
+    '}'  shift, and go to state 137
 
 
 State 117
 
-   68 statementComplex: KW_CONTINUE . ';'
+   77 statementIf: KW_IF . '(' expr ')' statementComplex
+   78            | KW_IF . '(' expr ')' statementComplex KW_ELSE statementComplex
 
-    ';'  shift, and go to state 138
+    '('  shift, and go to state 138
 
 
 State 118
+
+   75 statementFor: KW_FOR . '(' statement ';' expr ';' statement ')' statementComplex
+
+    '('  shift, and go to state 139
+
+
+State 119
+
+   76 statementWhile: KW_WHILE . '(' expr ')' statementComplex
+
+    '('  shift, and go to state 140
+
+
+State 120
+
+   69 statementComplex: KW_BREAK . ';'
+
+    ';'  shift, and go to state 141
+
+
+State 121
+
+   70 statementComplex: KW_CONTINUE . ';'
+
+    ';'  shift, and go to state 142
+
+
+State 122
 
    31 expr: . value
    32     | . IDENTIFIER
@@ -2803,13 +3058,15 @@ State 118
    48     | . expr KW_AND expr
    49     | . expr KW_OR expr
    50     | . KW_NOT expr
-   51     | . '(' expr ')'
-   52 value: . INTEGER
-   53      | . BOOL
-   54      | . REAL
-   55      | . STRING
-   69 statementComplex: KW_RETURN . expr ';'
-   70                 | KW_RETURN . ';'
+   51     | . '+' expr
+   52     | . '-' expr
+   53     | . '(' expr ')'
+   54 value: . INTEGER
+   55      | . BOOL
+   56      | . REAL
+   57      | . STRING
+   71 statementComplex: KW_RETURN . expr ';'
+   72                 | KW_RETURN . ';'
 
     BOOL        shift, and go to state 36
     KW_NOT      shift, and go to state 37
@@ -2817,29 +3074,31 @@ State 118
     INTEGER     shift, and go to state 39
     REAL        shift, and go to state 40
     IDENTIFIER  shift, and go to state 41
-    '('         shift, and go to state 42
-    ';'         shift, and go to state 139
+    '+'         shift, and go to state 42
+    '-'         shift, and go to state 43
+    '('         shift, and go to state 44
+    ';'         shift, and go to state 143
 
-    expr   go to state 140
-    value  go to state 44
+    expr   go to state 144
+    value  go to state 46
 
 
-State 119
+State 123
 
    32 expr: IDENTIFIER .  [KW_AND, KW_OR, POWER, EQ, NEQ, LT, LE, GT, GE, '+', '-', '*', '/', '%', ')', ';']
    33     | IDENTIFIER . '[' expr ']'
    34     | IDENTIFIER . '(' ')'
    35     | IDENTIFIER . '(' functionInputs ')'
-   71 statement: IDENTIFIER . ASSIGN expr
+   73 statement: IDENTIFIER . ASSIGN expr
 
-    ASSIGN  shift, and go to state 141
-    '('     shift, and go to state 55
-    '['     shift, and go to state 56
+    ASSIGN  shift, and go to state 145
+    '('     shift, and go to state 57
+    '['     shift, and go to state 58
 
     $default  reduce using rule 32 (expr)
 
 
-State 120
+State 124
 
    31 expr: . value
    32     | . IDENTIFIER
@@ -2861,86 +3120,90 @@ State 120
    48     | . expr KW_AND expr
    49     | . expr KW_OR expr
    50     | . KW_NOT expr
-   51     | . '(' expr ')'
-   52 value: . INTEGER
-   53      | . BOOL
-   54      | . REAL
-   55      | . STRING
-   59 statementList: . statementComplex
-   60              | . statementList statementComplex
-   61 statementComplex: . ';'
-   62                 | . statement ';'
-   63                 | . '{' statementList '}'
-   63                 | '{' . statementList '}'
-   64                 | . statementFor
-   65                 | . statementWhile
-   66                 | . statementIf
-   67                 | . KW_BREAK ';'
-   68                 | . KW_CONTINUE ';'
-   69                 | . KW_RETURN expr ';'
-   70                 | . KW_RETURN ';'
-   71 statement: . IDENTIFIER ASSIGN expr
-   72          | . expr
-   73 statementFor: . KW_FOR '(' statement ';' expr ';' statement ')' statementComplex
-   74 statementWhile: . KW_WHILE '(' expr ')' statementComplex
-   75 statementIf: . KW_IF '(' expr ')' statementComplex
-   76            | . statementIf KW_ELSE statementComplex
+   51     | . '+' expr
+   52     | . '-' expr
+   53     | . '(' expr ')'
+   54 value: . INTEGER
+   55      | . BOOL
+   56      | . REAL
+   57      | . STRING
+   61 statementList: . statementComplex
+   62              | . statementList statementComplex
+   63 statementComplex: . ';'
+   64                 | . statement ';'
+   65                 | . '{' statementList '}'
+   65                 | '{' . statementList '}'
+   66                 | . statementFor
+   67                 | . statementWhile
+   68                 | . statementIf
+   69                 | . KW_BREAK ';'
+   70                 | . KW_CONTINUE ';'
+   71                 | . KW_RETURN expr ';'
+   72                 | . KW_RETURN ';'
+   73 statement: . IDENTIFIER ASSIGN expr
+   74          | . expr
+   75 statementFor: . KW_FOR '(' statement ';' expr ';' statement ')' statementComplex
+   76 statementWhile: . KW_WHILE '(' expr ')' statementComplex
+   77 statementIf: . KW_IF '(' expr ')' statementComplex
+   78            | . KW_IF '(' expr ')' statementComplex KW_ELSE statementComplex
 
     BOOL         shift, and go to state 36
-    KW_IF        shift, and go to state 113
-    KW_FOR       shift, and go to state 114
-    KW_WHILE     shift, and go to state 115
-    KW_BREAK     shift, and go to state 116
-    KW_CONTINUE  shift, and go to state 117
+    KW_IF        shift, and go to state 117
+    KW_FOR       shift, and go to state 118
+    KW_WHILE     shift, and go to state 119
+    KW_BREAK     shift, and go to state 120
+    KW_CONTINUE  shift, and go to state 121
     KW_NOT       shift, and go to state 37
-    KW_RETURN    shift, and go to state 118
+    KW_RETURN    shift, and go to state 122
     STRING       shift, and go to state 38
     INTEGER      shift, and go to state 39
     REAL         shift, and go to state 40
-    IDENTIFIER   shift, and go to state 119
-    '('          shift, and go to state 42
-    '{'          shift, and go to state 120
-    ';'          shift, and go to state 121
+    IDENTIFIER   shift, and go to state 123
+    '+'          shift, and go to state 42
+    '-'          shift, and go to state 43
+    '('          shift, and go to state 44
+    '{'          shift, and go to state 124
+    ';'          shift, and go to state 125
 
-    expr              go to state 125
-    value             go to state 44
-    statementList     go to state 142
-    statementComplex  go to state 127
-    statement         go to state 128
-    statementFor      go to state 129
-    statementWhile    go to state 130
-    statementIf       go to state 131
-
-
-State 121
-
-   61 statementComplex: ';' .
-
-    $default  reduce using rule 61 (statementComplex)
+    expr              go to state 129
+    value             go to state 46
+    statementList     go to state 146
+    statementComplex  go to state 131
+    statement         go to state 132
+    statementFor      go to state 133
+    statementWhile    go to state 134
+    statementIf       go to state 135
 
 
-State 122
+State 125
+
+   63 statementComplex: ';' .
+
+    $default  reduce using rule 63 (statementComplex)
+
+
+State 126
 
     8 decl_list_body: decl_list_body declInsideBody .
 
     $default  reduce using rule 8 (decl_list_body)
 
 
-State 123
+State 127
 
     9 declInsideBody: constDeclaration . ';'
 
-    ';'  shift, and go to state 143
+    ';'  shift, and go to state 147
 
 
-State 124
+State 128
 
    10 declInsideBody: varDeclaration . ';'
 
-    ';'  shift, and go to state 144
+    ';'  shift, and go to state 148
 
 
-State 125
+State 129
 
    36 expr: expr . '+' expr
    37     | expr . '-' expr
@@ -2956,27 +3219,27 @@ State 125
    47     | expr . GT expr
    48     | expr . KW_AND expr
    49     | expr . KW_OR expr
-   72 statement: expr .  [')', ';']
+   74 statement: expr .  [')', ';']
 
-    KW_AND  shift, and go to state 58
-    KW_OR   shift, and go to state 59
-    POWER   shift, and go to state 60
-    EQ      shift, and go to state 61
-    NEQ     shift, and go to state 62
-    LT      shift, and go to state 63
-    LE      shift, and go to state 64
-    GT      shift, and go to state 65
-    GE      shift, and go to state 66
-    '+'     shift, and go to state 67
-    '-'     shift, and go to state 68
-    '*'     shift, and go to state 69
-    '/'     shift, and go to state 70
-    '%'     shift, and go to state 71
+    KW_AND  shift, and go to state 62
+    KW_OR   shift, and go to state 63
+    POWER   shift, and go to state 64
+    EQ      shift, and go to state 65
+    NEQ     shift, and go to state 66
+    LT      shift, and go to state 67
+    LE      shift, and go to state 68
+    GT      shift, and go to state 69
+    GE      shift, and go to state 70
+    '+'     shift, and go to state 71
+    '-'     shift, and go to state 72
+    '*'     shift, and go to state 73
+    '/'     shift, and go to state 74
+    '%'     shift, and go to state 75
 
-    $default  reduce using rule 72 (statement)
+    $default  reduce using rule 74 (statement)
 
 
-State 126
+State 130
 
    11 body: decl_list_body statementList .  ['}']
    31 expr: . value
@@ -2999,257 +3262,270 @@ State 126
    48     | . expr KW_AND expr
    49     | . expr KW_OR expr
    50     | . KW_NOT expr
-   51     | . '(' expr ')'
-   52 value: . INTEGER
-   53      | . BOOL
-   54      | . REAL
-   55      | . STRING
-   60 statementList: statementList . statementComplex
-   61 statementComplex: . ';'
-   62                 | . statement ';'
-   63                 | . '{' statementList '}'
-   64                 | . statementFor
-   65                 | . statementWhile
-   66                 | . statementIf
-   67                 | . KW_BREAK ';'
-   68                 | . KW_CONTINUE ';'
-   69                 | . KW_RETURN expr ';'
-   70                 | . KW_RETURN ';'
-   71 statement: . IDENTIFIER ASSIGN expr
-   72          | . expr
-   73 statementFor: . KW_FOR '(' statement ';' expr ';' statement ')' statementComplex
-   74 statementWhile: . KW_WHILE '(' expr ')' statementComplex
-   75 statementIf: . KW_IF '(' expr ')' statementComplex
-   76            | . statementIf KW_ELSE statementComplex
+   51     | . '+' expr
+   52     | . '-' expr
+   53     | . '(' expr ')'
+   54 value: . INTEGER
+   55      | . BOOL
+   56      | . REAL
+   57      | . STRING
+   62 statementList: statementList . statementComplex
+   63 statementComplex: . ';'
+   64                 | . statement ';'
+   65                 | . '{' statementList '}'
+   66                 | . statementFor
+   67                 | . statementWhile
+   68                 | . statementIf
+   69                 | . KW_BREAK ';'
+   70                 | . KW_CONTINUE ';'
+   71                 | . KW_RETURN expr ';'
+   72                 | . KW_RETURN ';'
+   73 statement: . IDENTIFIER ASSIGN expr
+   74          | . expr
+   75 statementFor: . KW_FOR '(' statement ';' expr ';' statement ')' statementComplex
+   76 statementWhile: . KW_WHILE '(' expr ')' statementComplex
+   77 statementIf: . KW_IF '(' expr ')' statementComplex
+   78            | . KW_IF '(' expr ')' statementComplex KW_ELSE statementComplex
 
     BOOL         shift, and go to state 36
-    KW_IF        shift, and go to state 113
-    KW_FOR       shift, and go to state 114
-    KW_WHILE     shift, and go to state 115
-    KW_BREAK     shift, and go to state 116
-    KW_CONTINUE  shift, and go to state 117
+    KW_IF        shift, and go to state 117
+    KW_FOR       shift, and go to state 118
+    KW_WHILE     shift, and go to state 119
+    KW_BREAK     shift, and go to state 120
+    KW_CONTINUE  shift, and go to state 121
     KW_NOT       shift, and go to state 37
-    KW_RETURN    shift, and go to state 118
+    KW_RETURN    shift, and go to state 122
     STRING       shift, and go to state 38
     INTEGER      shift, and go to state 39
     REAL         shift, and go to state 40
-    IDENTIFIER   shift, and go to state 119
-    '('          shift, and go to state 42
-    '{'          shift, and go to state 120
-    ';'          shift, and go to state 121
+    IDENTIFIER   shift, and go to state 123
+    '+'          shift, and go to state 42
+    '-'          shift, and go to state 43
+    '('          shift, and go to state 44
+    '{'          shift, and go to state 124
+    ';'          shift, and go to state 125
 
     $default  reduce using rule 11 (body)
 
-    expr              go to state 125
-    value             go to state 44
-    statementComplex  go to state 145
-    statement         go to state 128
-    statementFor      go to state 129
-    statementWhile    go to state 130
-    statementIf       go to state 131
-
-
-State 127
-
-   59 statementList: statementComplex .
-
-    $default  reduce using rule 59 (statementList)
-
-
-State 128
-
-   62 statementComplex: statement . ';'
-
-    ';'  shift, and go to state 146
-
-
-State 129
-
-   64 statementComplex: statementFor .
-
-    $default  reduce using rule 64 (statementComplex)
-
-
-State 130
-
-   65 statementComplex: statementWhile .
-
-    $default  reduce using rule 65 (statementComplex)
+    expr              go to state 129
+    value             go to state 46
+    statementComplex  go to state 149
+    statement         go to state 132
+    statementFor      go to state 133
+    statementWhile    go to state 134
+    statementIf       go to state 135
 
 
 State 131
 
-   66 statementComplex: statementIf .  [BOOL, KW_IF, KW_ELSE, KW_FOR, KW_WHILE, KW_BREAK, KW_CONTINUE, KW_NOT, KW_RETURN, STRING, INTEGER, REAL, IDENTIFIER, '(', '{', '}', ';']
-   76 statementIf: statementIf . KW_ELSE statementComplex
+   61 statementList: statementComplex .
 
-    KW_ELSE  shift, and go to state 147
-
-    KW_ELSE   [reduce using rule 66 (statementComplex)]
-    $default  reduce using rule 66 (statementComplex)
+    $default  reduce using rule 61 (statementList)
 
 
 State 132
+
+   64 statementComplex: statement . ';'
+
+    ';'  shift, and go to state 150
+
+
+State 133
+
+   66 statementComplex: statementFor .
+
+    $default  reduce using rule 66 (statementComplex)
+
+
+State 134
+
+   67 statementComplex: statementWhile .
+
+    $default  reduce using rule 67 (statementComplex)
+
+
+State 135
+
+   68 statementComplex: statementIf .
+
+    $default  reduce using rule 68 (statementComplex)
+
+
+State 136
 
     1 program: decl_list KW_FUNC KW_BEGIN '(' ')' '{' body '}' .
 
     $default  reduce using rule 1 (program)
 
 
-State 133
+State 137
 
    22 functionDeclaration: KW_FUNC IDENTIFIER '(' functionParameters ')' dataType '{' body '}' .
 
     $default  reduce using rule 22 (functionDeclaration)
 
 
-State 134
-
-   31 expr: . value
-   32     | . IDENTIFIER
-   33     | . IDENTIFIER '[' expr ']'
-   34     | . IDENTIFIER '(' ')'
-   35     | . IDENTIFIER '(' functionInputs ')'
-   36     | . expr '+' expr
-   37     | . expr '-' expr
-   38     | . expr '*' expr
-   39     | . expr '/' expr
-   40     | . expr '%' expr
-   41     | . expr POWER expr
-   42     | . expr EQ expr
-   43     | . expr NEQ expr
-   44     | . expr LE expr
-   45     | . expr LT expr
-   46     | . expr GE expr
-   47     | . expr GT expr
-   48     | . expr KW_AND expr
-   49     | . expr KW_OR expr
-   50     | . KW_NOT expr
-   51     | . '(' expr ')'
-   52 value: . INTEGER
-   53      | . BOOL
-   54      | . REAL
-   55      | . STRING
-   75 statementIf: KW_IF '(' . expr ')' statementComplex
-
-    BOOL        shift, and go to state 36
-    KW_NOT      shift, and go to state 37
-    STRING      shift, and go to state 38
-    INTEGER     shift, and go to state 39
-    REAL        shift, and go to state 40
-    IDENTIFIER  shift, and go to state 41
-    '('         shift, and go to state 42
-
-    expr   go to state 148
-    value  go to state 44
-
-
-State 135
-
-   31 expr: . value
-   32     | . IDENTIFIER
-   33     | . IDENTIFIER '[' expr ']'
-   34     | . IDENTIFIER '(' ')'
-   35     | . IDENTIFIER '(' functionInputs ')'
-   36     | . expr '+' expr
-   37     | . expr '-' expr
-   38     | . expr '*' expr
-   39     | . expr '/' expr
-   40     | . expr '%' expr
-   41     | . expr POWER expr
-   42     | . expr EQ expr
-   43     | . expr NEQ expr
-   44     | . expr LE expr
-   45     | . expr LT expr
-   46     | . expr GE expr
-   47     | . expr GT expr
-   48     | . expr KW_AND expr
-   49     | . expr KW_OR expr
-   50     | . KW_NOT expr
-   51     | . '(' expr ')'
-   52 value: . INTEGER
-   53      | . BOOL
-   54      | . REAL
-   55      | . STRING
-   71 statement: . IDENTIFIER ASSIGN expr
-   72          | . expr
-   73 statementFor: KW_FOR '(' . statement ';' expr ';' statement ')' statementComplex
-
-    BOOL        shift, and go to state 36
-    KW_NOT      shift, and go to state 37
-    STRING      shift, and go to state 38
-    INTEGER     shift, and go to state 39
-    REAL        shift, and go to state 40
-    IDENTIFIER  shift, and go to state 119
-    '('         shift, and go to state 42
-
-    expr       go to state 125
-    value      go to state 44
-    statement  go to state 149
-
-
-State 136
-
-   31 expr: . value
-   32     | . IDENTIFIER
-   33     | . IDENTIFIER '[' expr ']'
-   34     | . IDENTIFIER '(' ')'
-   35     | . IDENTIFIER '(' functionInputs ')'
-   36     | . expr '+' expr
-   37     | . expr '-' expr
-   38     | . expr '*' expr
-   39     | . expr '/' expr
-   40     | . expr '%' expr
-   41     | . expr POWER expr
-   42     | . expr EQ expr
-   43     | . expr NEQ expr
-   44     | . expr LE expr
-   45     | . expr LT expr
-   46     | . expr GE expr
-   47     | . expr GT expr
-   48     | . expr KW_AND expr
-   49     | . expr KW_OR expr
-   50     | . KW_NOT expr
-   51     | . '(' expr ')'
-   52 value: . INTEGER
-   53      | . BOOL
-   54      | . REAL
-   55      | . STRING
-   74 statementWhile: KW_WHILE '(' . expr ')' statementComplex
-
-    BOOL        shift, and go to state 36
-    KW_NOT      shift, and go to state 37
-    STRING      shift, and go to state 38
-    INTEGER     shift, and go to state 39
-    REAL        shift, and go to state 40
-    IDENTIFIER  shift, and go to state 41
-    '('         shift, and go to state 42
-
-    expr   go to state 150
-    value  go to state 44
-
-
-State 137
-
-   67 statementComplex: KW_BREAK ';' .
-
-    $default  reduce using rule 67 (statementComplex)
-
-
 State 138
 
-   68 statementComplex: KW_CONTINUE ';' .
+   31 expr: . value
+   32     | . IDENTIFIER
+   33     | . IDENTIFIER '[' expr ']'
+   34     | . IDENTIFIER '(' ')'
+   35     | . IDENTIFIER '(' functionInputs ')'
+   36     | . expr '+' expr
+   37     | . expr '-' expr
+   38     | . expr '*' expr
+   39     | . expr '/' expr
+   40     | . expr '%' expr
+   41     | . expr POWER expr
+   42     | . expr EQ expr
+   43     | . expr NEQ expr
+   44     | . expr LE expr
+   45     | . expr LT expr
+   46     | . expr GE expr
+   47     | . expr GT expr
+   48     | . expr KW_AND expr
+   49     | . expr KW_OR expr
+   50     | . KW_NOT expr
+   51     | . '+' expr
+   52     | . '-' expr
+   53     | . '(' expr ')'
+   54 value: . INTEGER
+   55      | . BOOL
+   56      | . REAL
+   57      | . STRING
+   77 statementIf: KW_IF '(' . expr ')' statementComplex
+   78            | KW_IF '(' . expr ')' statementComplex KW_ELSE statementComplex
 
-    $default  reduce using rule 68 (statementComplex)
+    BOOL        shift, and go to state 36
+    KW_NOT      shift, and go to state 37
+    STRING      shift, and go to state 38
+    INTEGER     shift, and go to state 39
+    REAL        shift, and go to state 40
+    IDENTIFIER  shift, and go to state 41
+    '+'         shift, and go to state 42
+    '-'         shift, and go to state 43
+    '('         shift, and go to state 44
+
+    expr   go to state 151
+    value  go to state 46
 
 
 State 139
 
-   70 statementComplex: KW_RETURN ';' .
+   31 expr: . value
+   32     | . IDENTIFIER
+   33     | . IDENTIFIER '[' expr ']'
+   34     | . IDENTIFIER '(' ')'
+   35     | . IDENTIFIER '(' functionInputs ')'
+   36     | . expr '+' expr
+   37     | . expr '-' expr
+   38     | . expr '*' expr
+   39     | . expr '/' expr
+   40     | . expr '%' expr
+   41     | . expr POWER expr
+   42     | . expr EQ expr
+   43     | . expr NEQ expr
+   44     | . expr LE expr
+   45     | . expr LT expr
+   46     | . expr GE expr
+   47     | . expr GT expr
+   48     | . expr KW_AND expr
+   49     | . expr KW_OR expr
+   50     | . KW_NOT expr
+   51     | . '+' expr
+   52     | . '-' expr
+   53     | . '(' expr ')'
+   54 value: . INTEGER
+   55      | . BOOL
+   56      | . REAL
+   57      | . STRING
+   73 statement: . IDENTIFIER ASSIGN expr
+   74          | . expr
+   75 statementFor: KW_FOR '(' . statement ';' expr ';' statement ')' statementComplex
+
+    BOOL        shift, and go to state 36
+    KW_NOT      shift, and go to state 37
+    STRING      shift, and go to state 38
+    INTEGER     shift, and go to state 39
+    REAL        shift, and go to state 40
+    IDENTIFIER  shift, and go to state 123
+    '+'         shift, and go to state 42
+    '-'         shift, and go to state 43
+    '('         shift, and go to state 44
+
+    expr       go to state 129
+    value      go to state 46
+    statement  go to state 152
+
+
+State 140
+
+   31 expr: . value
+   32     | . IDENTIFIER
+   33     | . IDENTIFIER '[' expr ']'
+   34     | . IDENTIFIER '(' ')'
+   35     | . IDENTIFIER '(' functionInputs ')'
+   36     | . expr '+' expr
+   37     | . expr '-' expr
+   38     | . expr '*' expr
+   39     | . expr '/' expr
+   40     | . expr '%' expr
+   41     | . expr POWER expr
+   42     | . expr EQ expr
+   43     | . expr NEQ expr
+   44     | . expr LE expr
+   45     | . expr LT expr
+   46     | . expr GE expr
+   47     | . expr GT expr
+   48     | . expr KW_AND expr
+   49     | . expr KW_OR expr
+   50     | . KW_NOT expr
+   51     | . '+' expr
+   52     | . '-' expr
+   53     | . '(' expr ')'
+   54 value: . INTEGER
+   55      | . BOOL
+   56      | . REAL
+   57      | . STRING
+   76 statementWhile: KW_WHILE '(' . expr ')' statementComplex
+
+    BOOL        shift, and go to state 36
+    KW_NOT      shift, and go to state 37
+    STRING      shift, and go to state 38
+    INTEGER     shift, and go to state 39
+    REAL        shift, and go to state 40
+    IDENTIFIER  shift, and go to state 41
+    '+'         shift, and go to state 42
+    '-'         shift, and go to state 43
+    '('         shift, and go to state 44
+
+    expr   go to state 153
+    value  go to state 46
+
+
+State 141
+
+   69 statementComplex: KW_BREAK ';' .
+
+    $default  reduce using rule 69 (statementComplex)
+
+
+State 142
+
+   70 statementComplex: KW_CONTINUE ';' .
 
     $default  reduce using rule 70 (statementComplex)
 
 
-State 140
+State 143
+
+   72 statementComplex: KW_RETURN ';' .
+
+    $default  reduce using rule 72 (statementComplex)
+
+
+State 144
 
    36 expr: expr . '+' expr
    37     | expr . '-' expr
@@ -3265,26 +3541,26 @@ State 140
    47     | expr . GT expr
    48     | expr . KW_AND expr
    49     | expr . KW_OR expr
-   69 statementComplex: KW_RETURN expr . ';'
+   71 statementComplex: KW_RETURN expr . ';'
 
-    KW_AND  shift, and go to state 58
-    KW_OR   shift, and go to state 59
-    POWER   shift, and go to state 60
-    EQ      shift, and go to state 61
-    NEQ     shift, and go to state 62
-    LT      shift, and go to state 63
-    LE      shift, and go to state 64
-    GT      shift, and go to state 65
-    GE      shift, and go to state 66
-    '+'     shift, and go to state 67
-    '-'     shift, and go to state 68
-    '*'     shift, and go to state 69
-    '/'     shift, and go to state 70
-    '%'     shift, and go to state 71
-    ';'     shift, and go to state 151
+    KW_AND  shift, and go to state 62
+    KW_OR   shift, and go to state 63
+    POWER   shift, and go to state 64
+    EQ      shift, and go to state 65
+    NEQ     shift, and go to state 66
+    LT      shift, and go to state 67
+    LE      shift, and go to state 68
+    GT      shift, and go to state 69
+    GE      shift, and go to state 70
+    '+'     shift, and go to state 71
+    '-'     shift, and go to state 72
+    '*'     shift, and go to state 73
+    '/'     shift, and go to state 74
+    '%'     shift, and go to state 75
+    ';'     shift, and go to state 154
 
 
-State 141
+State 145
 
    31 expr: . value
    32     | . IDENTIFIER
@@ -3306,12 +3582,14 @@ State 141
    48     | . expr KW_AND expr
    49     | . expr KW_OR expr
    50     | . KW_NOT expr
-   51     | . '(' expr ')'
-   52 value: . INTEGER
-   53      | . BOOL
-   54      | . REAL
-   55      | . STRING
-   71 statement: IDENTIFIER ASSIGN . expr
+   51     | . '+' expr
+   52     | . '-' expr
+   53     | . '(' expr ')'
+   54 value: . INTEGER
+   55      | . BOOL
+   56      | . REAL
+   57      | . STRING
+   73 statement: IDENTIFIER ASSIGN . expr
 
     BOOL        shift, and go to state 36
     KW_NOT      shift, and go to state 37
@@ -3319,13 +3597,15 @@ State 141
     INTEGER     shift, and go to state 39
     REAL        shift, and go to state 40
     IDENTIFIER  shift, and go to state 41
-    '('         shift, and go to state 42
+    '+'         shift, and go to state 42
+    '-'         shift, and go to state 43
+    '('         shift, and go to state 44
 
-    expr   go to state 152
-    value  go to state 44
+    expr   go to state 155
+    value  go to state 46
 
 
-State 142
+State 146
 
    31 expr: . value
    32     | . IDENTIFIER
@@ -3347,239 +3627,132 @@ State 142
    48     | . expr KW_AND expr
    49     | . expr KW_OR expr
    50     | . KW_NOT expr
-   51     | . '(' expr ')'
-   52 value: . INTEGER
-   53      | . BOOL
-   54      | . REAL
-   55      | . STRING
-   60 statementList: statementList . statementComplex
-   61 statementComplex: . ';'
-   62                 | . statement ';'
-   63                 | . '{' statementList '}'
-   63                 | '{' statementList . '}'
-   64                 | . statementFor
-   65                 | . statementWhile
-   66                 | . statementIf
-   67                 | . KW_BREAK ';'
-   68                 | . KW_CONTINUE ';'
-   69                 | . KW_RETURN expr ';'
-   70                 | . KW_RETURN ';'
-   71 statement: . IDENTIFIER ASSIGN expr
-   72          | . expr
-   73 statementFor: . KW_FOR '(' statement ';' expr ';' statement ')' statementComplex
-   74 statementWhile: . KW_WHILE '(' expr ')' statementComplex
-   75 statementIf: . KW_IF '(' expr ')' statementComplex
-   76            | . statementIf KW_ELSE statementComplex
+   51     | . '+' expr
+   52     | . '-' expr
+   53     | . '(' expr ')'
+   54 value: . INTEGER
+   55      | . BOOL
+   56      | . REAL
+   57      | . STRING
+   62 statementList: statementList . statementComplex
+   63 statementComplex: . ';'
+   64                 | . statement ';'
+   65                 | . '{' statementList '}'
+   65                 | '{' statementList . '}'
+   66                 | . statementFor
+   67                 | . statementWhile
+   68                 | . statementIf
+   69                 | . KW_BREAK ';'
+   70                 | . KW_CONTINUE ';'
+   71                 | . KW_RETURN expr ';'
+   72                 | . KW_RETURN ';'
+   73 statement: . IDENTIFIER ASSIGN expr
+   74          | . expr
+   75 statementFor: . KW_FOR '(' statement ';' expr ';' statement ')' statementComplex
+   76 statementWhile: . KW_WHILE '(' expr ')' statementComplex
+   77 statementIf: . KW_IF '(' expr ')' statementComplex
+   78            | . KW_IF '(' expr ')' statementComplex KW_ELSE statementComplex
 
     BOOL         shift, and go to state 36
-    KW_IF        shift, and go to state 113
-    KW_FOR       shift, and go to state 114
-    KW_WHILE     shift, and go to state 115
-    KW_BREAK     shift, and go to state 116
-    KW_CONTINUE  shift, and go to state 117
+    KW_IF        shift, and go to state 117
+    KW_FOR       shift, and go to state 118
+    KW_WHILE     shift, and go to state 119
+    KW_BREAK     shift, and go to state 120
+    KW_CONTINUE  shift, and go to state 121
     KW_NOT       shift, and go to state 37
-    KW_RETURN    shift, and go to state 118
+    KW_RETURN    shift, and go to state 122
     STRING       shift, and go to state 38
     INTEGER      shift, and go to state 39
     REAL         shift, and go to state 40
-    IDENTIFIER   shift, and go to state 119
-    '('          shift, and go to state 42
-    '{'          shift, and go to state 120
-    '}'          shift, and go to state 153
-    ';'          shift, and go to state 121
+    IDENTIFIER   shift, and go to state 123
+    '+'          shift, and go to state 42
+    '-'          shift, and go to state 43
+    '('          shift, and go to state 44
+    '{'          shift, and go to state 124
+    '}'          shift, and go to state 156
+    ';'          shift, and go to state 125
 
-    expr              go to state 125
-    value             go to state 44
-    statementComplex  go to state 145
-    statement         go to state 128
-    statementFor      go to state 129
-    statementWhile    go to state 130
-    statementIf       go to state 131
+    expr              go to state 129
+    value             go to state 46
+    statementComplex  go to state 149
+    statement         go to state 132
+    statementFor      go to state 133
+    statementWhile    go to state 134
+    statementIf       go to state 135
 
 
-State 143
+State 147
 
     9 declInsideBody: constDeclaration ';' .
 
     $default  reduce using rule 9 (declInsideBody)
 
 
-State 144
+State 148
 
    10 declInsideBody: varDeclaration ';' .
 
     $default  reduce using rule 10 (declInsideBody)
 
 
-State 145
-
-   60 statementList: statementList statementComplex .
-
-    $default  reduce using rule 60 (statementList)
-
-
-State 146
-
-   62 statementComplex: statement ';' .
-
-    $default  reduce using rule 62 (statementComplex)
-
-
-State 147
-
-   31 expr: . value
-   32     | . IDENTIFIER
-   33     | . IDENTIFIER '[' expr ']'
-   34     | . IDENTIFIER '(' ')'
-   35     | . IDENTIFIER '(' functionInputs ')'
-   36     | . expr '+' expr
-   37     | . expr '-' expr
-   38     | . expr '*' expr
-   39     | . expr '/' expr
-   40     | . expr '%' expr
-   41     | . expr POWER expr
-   42     | . expr EQ expr
-   43     | . expr NEQ expr
-   44     | . expr LE expr
-   45     | . expr LT expr
-   46     | . expr GE expr
-   47     | . expr GT expr
-   48     | . expr KW_AND expr
-   49     | . expr KW_OR expr
-   50     | . KW_NOT expr
-   51     | . '(' expr ')'
-   52 value: . INTEGER
-   53      | . BOOL
-   54      | . REAL
-   55      | . STRING
-   61 statementComplex: . ';'
-   62                 | . statement ';'
-   63                 | . '{' statementList '}'
-   64                 | . statementFor
-   65                 | . statementWhile
-   66                 | . statementIf
-   67                 | . KW_BREAK ';'
-   68                 | . KW_CONTINUE ';'
-   69                 | . KW_RETURN expr ';'
-   70                 | . KW_RETURN ';'
-   71 statement: . IDENTIFIER ASSIGN expr
-   72          | . expr
-   73 statementFor: . KW_FOR '(' statement ';' expr ';' statement ')' statementComplex
-   74 statementWhile: . KW_WHILE '(' expr ')' statementComplex
-   75 statementIf: . KW_IF '(' expr ')' statementComplex
-   76            | . statementIf KW_ELSE statementComplex
-   76            | statementIf KW_ELSE . statementComplex
-
-    BOOL         shift, and go to state 36
-    KW_IF        shift, and go to state 113
-    KW_FOR       shift, and go to state 114
-    KW_WHILE     shift, and go to state 115
-    KW_BREAK     shift, and go to state 116
-    KW_CONTINUE  shift, and go to state 117
-    KW_NOT       shift, and go to state 37
-    KW_RETURN    shift, and go to state 118
-    STRING       shift, and go to state 38
-    INTEGER      shift, and go to state 39
-    REAL         shift, and go to state 40
-    IDENTIFIER   shift, and go to state 119
-    '('          shift, and go to state 42
-    '{'          shift, and go to state 120
-    ';'          shift, and go to state 121
-
-    expr              go to state 125
-    value             go to state 44
-    statementComplex  go to state 154
-    statement         go to state 128
-    statementFor      go to state 129
-    statementWhile    go to state 130
-    statementIf       go to state 131
-
-
-State 148
-
-   36 expr: expr . '+' expr
-   37     | expr . '-' expr
-   38     | expr . '*' expr
-   39     | expr . '/' expr
-   40     | expr . '%' expr
-   41     | expr . POWER expr
-   42     | expr . EQ expr
-   43     | expr . NEQ expr
-   44     | expr . LE expr
-   45     | expr . LT expr
-   46     | expr . GE expr
-   47     | expr . GT expr
-   48     | expr . KW_AND expr
-   49     | expr . KW_OR expr
-   75 statementIf: KW_IF '(' expr . ')' statementComplex
-
-    KW_AND  shift, and go to state 58
-    KW_OR   shift, and go to state 59
-    POWER   shift, and go to state 60
-    EQ      shift, and go to state 61
-    NEQ     shift, and go to state 62
-    LT      shift, and go to state 63
-    LE      shift, and go to state 64
-    GT      shift, and go to state 65
-    GE      shift, and go to state 66
-    '+'     shift, and go to state 67
-    '-'     shift, and go to state 68
-    '*'     shift, and go to state 69
-    '/'     shift, and go to state 70
-    '%'     shift, and go to state 71
-    ')'     shift, and go to state 155
-
-
 State 149
 
-   73 statementFor: KW_FOR '(' statement . ';' expr ';' statement ')' statementComplex
+   62 statementList: statementList statementComplex .
 
-    ';'  shift, and go to state 156
+    $default  reduce using rule 62 (statementList)
 
 
 State 150
 
-   36 expr: expr . '+' expr
-   37     | expr . '-' expr
-   38     | expr . '*' expr
-   39     | expr . '/' expr
-   40     | expr . '%' expr
-   41     | expr . POWER expr
-   42     | expr . EQ expr
-   43     | expr . NEQ expr
-   44     | expr . LE expr
-   45     | expr . LT expr
-   46     | expr . GE expr
-   47     | expr . GT expr
-   48     | expr . KW_AND expr
-   49     | expr . KW_OR expr
-   74 statementWhile: KW_WHILE '(' expr . ')' statementComplex
+   64 statementComplex: statement ';' .
 
-    KW_AND  shift, and go to state 58
-    KW_OR   shift, and go to state 59
-    POWER   shift, and go to state 60
-    EQ      shift, and go to state 61
-    NEQ     shift, and go to state 62
-    LT      shift, and go to state 63
-    LE      shift, and go to state 64
-    GT      shift, and go to state 65
-    GE      shift, and go to state 66
-    '+'     shift, and go to state 67
-    '-'     shift, and go to state 68
-    '*'     shift, and go to state 69
-    '/'     shift, and go to state 70
-    '%'     shift, and go to state 71
-    ')'     shift, and go to state 157
+    $default  reduce using rule 64 (statementComplex)
 
 
 State 151
 
-   69 statementComplex: KW_RETURN expr ';' .
+   36 expr: expr . '+' expr
+   37     | expr . '-' expr
+   38     | expr . '*' expr
+   39     | expr . '/' expr
+   40     | expr . '%' expr
+   41     | expr . POWER expr
+   42     | expr . EQ expr
+   43     | expr . NEQ expr
+   44     | expr . LE expr
+   45     | expr . LT expr
+   46     | expr . GE expr
+   47     | expr . GT expr
+   48     | expr . KW_AND expr
+   49     | expr . KW_OR expr
+   77 statementIf: KW_IF '(' expr . ')' statementComplex
+   78            | KW_IF '(' expr . ')' statementComplex KW_ELSE statementComplex
 
-    $default  reduce using rule 69 (statementComplex)
+    KW_AND  shift, and go to state 62
+    KW_OR   shift, and go to state 63
+    POWER   shift, and go to state 64
+    EQ      shift, and go to state 65
+    NEQ     shift, and go to state 66
+    LT      shift, and go to state 67
+    LE      shift, and go to state 68
+    GT      shift, and go to state 69
+    GE      shift, and go to state 70
+    '+'     shift, and go to state 71
+    '-'     shift, and go to state 72
+    '*'     shift, and go to state 73
+    '/'     shift, and go to state 74
+    '%'     shift, and go to state 75
+    ')'     shift, and go to state 157
 
 
 State 152
+
+   75 statementFor: KW_FOR '(' statement . ';' expr ';' statement ')' statementComplex
+
+    ';'  shift, and go to state 158
+
+
+State 153
 
    36 expr: expr . '+' expr
    37     | expr . '-' expr
@@ -3595,149 +3768,73 @@ State 152
    47     | expr . GT expr
    48     | expr . KW_AND expr
    49     | expr . KW_OR expr
-   71 statement: IDENTIFIER ASSIGN expr .  [')', ';']
+   76 statementWhile: KW_WHILE '(' expr . ')' statementComplex
 
-    KW_AND  shift, and go to state 58
-    KW_OR   shift, and go to state 59
-    POWER   shift, and go to state 60
-    EQ      shift, and go to state 61
-    NEQ     shift, and go to state 62
-    LT      shift, and go to state 63
-    LE      shift, and go to state 64
-    GT      shift, and go to state 65
-    GE      shift, and go to state 66
-    '+'     shift, and go to state 67
-    '-'     shift, and go to state 68
-    '*'     shift, and go to state 69
-    '/'     shift, and go to state 70
-    '%'     shift, and go to state 71
-
-    $default  reduce using rule 71 (statement)
-
-
-State 153
-
-   63 statementComplex: '{' statementList '}' .
-
-    $default  reduce using rule 63 (statementComplex)
+    KW_AND  shift, and go to state 62
+    KW_OR   shift, and go to state 63
+    POWER   shift, and go to state 64
+    EQ      shift, and go to state 65
+    NEQ     shift, and go to state 66
+    LT      shift, and go to state 67
+    LE      shift, and go to state 68
+    GT      shift, and go to state 69
+    GE      shift, and go to state 70
+    '+'     shift, and go to state 71
+    '-'     shift, and go to state 72
+    '*'     shift, and go to state 73
+    '/'     shift, and go to state 74
+    '%'     shift, and go to state 75
+    ')'     shift, and go to state 159
 
 
 State 154
 
-   76 statementIf: statementIf KW_ELSE statementComplex .
+   71 statementComplex: KW_RETURN expr ';' .
 
-    $default  reduce using rule 76 (statementIf)
+    $default  reduce using rule 71 (statementComplex)
 
 
 State 155
 
-   31 expr: . value
-   32     | . IDENTIFIER
-   33     | . IDENTIFIER '[' expr ']'
-   34     | . IDENTIFIER '(' ')'
-   35     | . IDENTIFIER '(' functionInputs ')'
-   36     | . expr '+' expr
-   37     | . expr '-' expr
-   38     | . expr '*' expr
-   39     | . expr '/' expr
-   40     | . expr '%' expr
-   41     | . expr POWER expr
-   42     | . expr EQ expr
-   43     | . expr NEQ expr
-   44     | . expr LE expr
-   45     | . expr LT expr
-   46     | . expr GE expr
-   47     | . expr GT expr
-   48     | . expr KW_AND expr
-   49     | . expr KW_OR expr
-   50     | . KW_NOT expr
-   51     | . '(' expr ')'
-   52 value: . INTEGER
-   53      | . BOOL
-   54      | . REAL
-   55      | . STRING
-   61 statementComplex: . ';'
-   62                 | . statement ';'
-   63                 | . '{' statementList '}'
-   64                 | . statementFor
-   65                 | . statementWhile
-   66                 | . statementIf
-   67                 | . KW_BREAK ';'
-   68                 | . KW_CONTINUE ';'
-   69                 | . KW_RETURN expr ';'
-   70                 | . KW_RETURN ';'
-   71 statement: . IDENTIFIER ASSIGN expr
-   72          | . expr
-   73 statementFor: . KW_FOR '(' statement ';' expr ';' statement ')' statementComplex
-   74 statementWhile: . KW_WHILE '(' expr ')' statementComplex
-   75 statementIf: . KW_IF '(' expr ')' statementComplex
-   75            | KW_IF '(' expr ')' . statementComplex
-   76            | . statementIf KW_ELSE statementComplex
+   36 expr: expr . '+' expr
+   37     | expr . '-' expr
+   38     | expr . '*' expr
+   39     | expr . '/' expr
+   40     | expr . '%' expr
+   41     | expr . POWER expr
+   42     | expr . EQ expr
+   43     | expr . NEQ expr
+   44     | expr . LE expr
+   45     | expr . LT expr
+   46     | expr . GE expr
+   47     | expr . GT expr
+   48     | expr . KW_AND expr
+   49     | expr . KW_OR expr
+   73 statement: IDENTIFIER ASSIGN expr .  [')', ';']
 
-    BOOL         shift, and go to state 36
-    KW_IF        shift, and go to state 113
-    KW_FOR       shift, and go to state 114
-    KW_WHILE     shift, and go to state 115
-    KW_BREAK     shift, and go to state 116
-    KW_CONTINUE  shift, and go to state 117
-    KW_NOT       shift, and go to state 37
-    KW_RETURN    shift, and go to state 118
-    STRING       shift, and go to state 38
-    INTEGER      shift, and go to state 39
-    REAL         shift, and go to state 40
-    IDENTIFIER   shift, and go to state 119
-    '('          shift, and go to state 42
-    '{'          shift, and go to state 120
-    ';'          shift, and go to state 121
+    KW_AND  shift, and go to state 62
+    KW_OR   shift, and go to state 63
+    POWER   shift, and go to state 64
+    EQ      shift, and go to state 65
+    NEQ     shift, and go to state 66
+    LT      shift, and go to state 67
+    LE      shift, and go to state 68
+    GT      shift, and go to state 69
+    GE      shift, and go to state 70
+    '+'     shift, and go to state 71
+    '-'     shift, and go to state 72
+    '*'     shift, and go to state 73
+    '/'     shift, and go to state 74
+    '%'     shift, and go to state 75
 
-    expr              go to state 125
-    value             go to state 44
-    statementComplex  go to state 158
-    statement         go to state 128
-    statementFor      go to state 129
-    statementWhile    go to state 130
-    statementIf       go to state 131
+    $default  reduce using rule 73 (statement)
 
 
 State 156
 
-   31 expr: . value
-   32     | . IDENTIFIER
-   33     | . IDENTIFIER '[' expr ']'
-   34     | . IDENTIFIER '(' ')'
-   35     | . IDENTIFIER '(' functionInputs ')'
-   36     | . expr '+' expr
-   37     | . expr '-' expr
-   38     | . expr '*' expr
-   39     | . expr '/' expr
-   40     | . expr '%' expr
-   41     | . expr POWER expr
-   42     | . expr EQ expr
-   43     | . expr NEQ expr
-   44     | . expr LE expr
-   45     | . expr LT expr
-   46     | . expr GE expr
-   47     | . expr GT expr
-   48     | . expr KW_AND expr
-   49     | . expr KW_OR expr
-   50     | . KW_NOT expr
-   51     | . '(' expr ')'
-   52 value: . INTEGER
-   53      | . BOOL
-   54      | . REAL
-   55      | . STRING
-   73 statementFor: KW_FOR '(' statement ';' . expr ';' statement ')' statementComplex
+   65 statementComplex: '{' statementList '}' .
 
-    BOOL        shift, and go to state 36
-    KW_NOT      shift, and go to state 37
-    STRING      shift, and go to state 38
-    INTEGER     shift, and go to state 39
-    REAL        shift, and go to state 40
-    IDENTIFIER  shift, and go to state 41
-    '('         shift, and go to state 42
-
-    expr   go to state 159
-    value  go to state 44
+    $default  reduce using rule 65 (statementComplex)
 
 
 State 157
@@ -3762,104 +3859,60 @@ State 157
    48     | . expr KW_AND expr
    49     | . expr KW_OR expr
    50     | . KW_NOT expr
-   51     | . '(' expr ')'
-   52 value: . INTEGER
-   53      | . BOOL
-   54      | . REAL
-   55      | . STRING
-   61 statementComplex: . ';'
-   62                 | . statement ';'
-   63                 | . '{' statementList '}'
-   64                 | . statementFor
-   65                 | . statementWhile
-   66                 | . statementIf
-   67                 | . KW_BREAK ';'
-   68                 | . KW_CONTINUE ';'
-   69                 | . KW_RETURN expr ';'
-   70                 | . KW_RETURN ';'
-   71 statement: . IDENTIFIER ASSIGN expr
-   72          | . expr
-   73 statementFor: . KW_FOR '(' statement ';' expr ';' statement ')' statementComplex
-   74 statementWhile: . KW_WHILE '(' expr ')' statementComplex
-   74               | KW_WHILE '(' expr ')' . statementComplex
-   75 statementIf: . KW_IF '(' expr ')' statementComplex
-   76            | . statementIf KW_ELSE statementComplex
+   51     | . '+' expr
+   52     | . '-' expr
+   53     | . '(' expr ')'
+   54 value: . INTEGER
+   55      | . BOOL
+   56      | . REAL
+   57      | . STRING
+   63 statementComplex: . ';'
+   64                 | . statement ';'
+   65                 | . '{' statementList '}'
+   66                 | . statementFor
+   67                 | . statementWhile
+   68                 | . statementIf
+   69                 | . KW_BREAK ';'
+   70                 | . KW_CONTINUE ';'
+   71                 | . KW_RETURN expr ';'
+   72                 | . KW_RETURN ';'
+   73 statement: . IDENTIFIER ASSIGN expr
+   74          | . expr
+   75 statementFor: . KW_FOR '(' statement ';' expr ';' statement ')' statementComplex
+   76 statementWhile: . KW_WHILE '(' expr ')' statementComplex
+   77 statementIf: . KW_IF '(' expr ')' statementComplex
+   77            | KW_IF '(' expr ')' . statementComplex
+   78            | . KW_IF '(' expr ')' statementComplex KW_ELSE statementComplex
+   78            | KW_IF '(' expr ')' . statementComplex KW_ELSE statementComplex
 
     BOOL         shift, and go to state 36
-    KW_IF        shift, and go to state 113
-    KW_FOR       shift, and go to state 114
-    KW_WHILE     shift, and go to state 115
-    KW_BREAK     shift, and go to state 116
-    KW_CONTINUE  shift, and go to state 117
+    KW_IF        shift, and go to state 117
+    KW_FOR       shift, and go to state 118
+    KW_WHILE     shift, and go to state 119
+    KW_BREAK     shift, and go to state 120
+    KW_CONTINUE  shift, and go to state 121
     KW_NOT       shift, and go to state 37
-    KW_RETURN    shift, and go to state 118
+    KW_RETURN    shift, and go to state 122
     STRING       shift, and go to state 38
     INTEGER      shift, and go to state 39
     REAL         shift, and go to state 40
-    IDENTIFIER   shift, and go to state 119
-    '('          shift, and go to state 42
-    '{'          shift, and go to state 120
-    ';'          shift, and go to state 121
+    IDENTIFIER   shift, and go to state 123
+    '+'          shift, and go to state 42
+    '-'          shift, and go to state 43
+    '('          shift, and go to state 44
+    '{'          shift, and go to state 124
+    ';'          shift, and go to state 125
 
-    expr              go to state 125
-    value             go to state 44
+    expr              go to state 129
+    value             go to state 46
     statementComplex  go to state 160
-    statement         go to state 128
-    statementFor      go to state 129
-    statementWhile    go to state 130
-    statementIf       go to state 131
+    statement         go to state 132
+    statementFor      go to state 133
+    statementWhile    go to state 134
+    statementIf       go to state 135
 
 
 State 158
-
-   75 statementIf: KW_IF '(' expr ')' statementComplex .
-
-    $default  reduce using rule 75 (statementIf)
-
-
-State 159
-
-   36 expr: expr . '+' expr
-   37     | expr . '-' expr
-   38     | expr . '*' expr
-   39     | expr . '/' expr
-   40     | expr . '%' expr
-   41     | expr . POWER expr
-   42     | expr . EQ expr
-   43     | expr . NEQ expr
-   44     | expr . LE expr
-   45     | expr . LT expr
-   46     | expr . GE expr
-   47     | expr . GT expr
-   48     | expr . KW_AND expr
-   49     | expr . KW_OR expr
-   73 statementFor: KW_FOR '(' statement ';' expr . ';' statement ')' statementComplex
-
-    KW_AND  shift, and go to state 58
-    KW_OR   shift, and go to state 59
-    POWER   shift, and go to state 60
-    EQ      shift, and go to state 61
-    NEQ     shift, and go to state 62
-    LT      shift, and go to state 63
-    LE      shift, and go to state 64
-    GT      shift, and go to state 65
-    GE      shift, and go to state 66
-    '+'     shift, and go to state 67
-    '-'     shift, and go to state 68
-    '*'     shift, and go to state 69
-    '/'     shift, and go to state 70
-    '%'     shift, and go to state 71
-    ';'     shift, and go to state 161
-
-
-State 160
-
-   74 statementWhile: KW_WHILE '(' expr ')' statementComplex .
-
-    $default  reduce using rule 74 (statementWhile)
-
-
-State 161
 
    31 expr: . value
    32     | . IDENTIFIER
@@ -3881,33 +3934,155 @@ State 161
    48     | . expr KW_AND expr
    49     | . expr KW_OR expr
    50     | . KW_NOT expr
-   51     | . '(' expr ')'
-   52 value: . INTEGER
-   53      | . BOOL
-   54      | . REAL
-   55      | . STRING
-   71 statement: . IDENTIFIER ASSIGN expr
-   72          | . expr
-   73 statementFor: KW_FOR '(' statement ';' expr ';' . statement ')' statementComplex
+   51     | . '+' expr
+   52     | . '-' expr
+   53     | . '(' expr ')'
+   54 value: . INTEGER
+   55      | . BOOL
+   56      | . REAL
+   57      | . STRING
+   75 statementFor: KW_FOR '(' statement ';' . expr ';' statement ')' statementComplex
 
     BOOL        shift, and go to state 36
     KW_NOT      shift, and go to state 37
     STRING      shift, and go to state 38
     INTEGER     shift, and go to state 39
     REAL        shift, and go to state 40
-    IDENTIFIER  shift, and go to state 119
-    '('         shift, and go to state 42
+    IDENTIFIER  shift, and go to state 41
+    '+'         shift, and go to state 42
+    '-'         shift, and go to state 43
+    '('         shift, and go to state 44
 
-    expr       go to state 125
-    value      go to state 44
-    statement  go to state 162
+    expr   go to state 161
+    value  go to state 46
+
+
+State 159
+
+   31 expr: . value
+   32     | . IDENTIFIER
+   33     | . IDENTIFIER '[' expr ']'
+   34     | . IDENTIFIER '(' ')'
+   35     | . IDENTIFIER '(' functionInputs ')'
+   36     | . expr '+' expr
+   37     | . expr '-' expr
+   38     | . expr '*' expr
+   39     | . expr '/' expr
+   40     | . expr '%' expr
+   41     | . expr POWER expr
+   42     | . expr EQ expr
+   43     | . expr NEQ expr
+   44     | . expr LE expr
+   45     | . expr LT expr
+   46     | . expr GE expr
+   47     | . expr GT expr
+   48     | . expr KW_AND expr
+   49     | . expr KW_OR expr
+   50     | . KW_NOT expr
+   51     | . '+' expr
+   52     | . '-' expr
+   53     | . '(' expr ')'
+   54 value: . INTEGER
+   55      | . BOOL
+   56      | . REAL
+   57      | . STRING
+   63 statementComplex: . ';'
+   64                 | . statement ';'
+   65                 | . '{' statementList '}'
+   66                 | . statementFor
+   67                 | . statementWhile
+   68                 | . statementIf
+   69                 | . KW_BREAK ';'
+   70                 | . KW_CONTINUE ';'
+   71                 | . KW_RETURN expr ';'
+   72                 | . KW_RETURN ';'
+   73 statement: . IDENTIFIER ASSIGN expr
+   74          | . expr
+   75 statementFor: . KW_FOR '(' statement ';' expr ';' statement ')' statementComplex
+   76 statementWhile: . KW_WHILE '(' expr ')' statementComplex
+   76               | KW_WHILE '(' expr ')' . statementComplex
+   77 statementIf: . KW_IF '(' expr ')' statementComplex
+   78            | . KW_IF '(' expr ')' statementComplex KW_ELSE statementComplex
+
+    BOOL         shift, and go to state 36
+    KW_IF        shift, and go to state 117
+    KW_FOR       shift, and go to state 118
+    KW_WHILE     shift, and go to state 119
+    KW_BREAK     shift, and go to state 120
+    KW_CONTINUE  shift, and go to state 121
+    KW_NOT       shift, and go to state 37
+    KW_RETURN    shift, and go to state 122
+    STRING       shift, and go to state 38
+    INTEGER      shift, and go to state 39
+    REAL         shift, and go to state 40
+    IDENTIFIER   shift, and go to state 123
+    '+'          shift, and go to state 42
+    '-'          shift, and go to state 43
+    '('          shift, and go to state 44
+    '{'          shift, and go to state 124
+    ';'          shift, and go to state 125
+
+    expr              go to state 129
+    value             go to state 46
+    statementComplex  go to state 162
+    statement         go to state 132
+    statementFor      go to state 133
+    statementWhile    go to state 134
+    statementIf       go to state 135
+
+
+State 160
+
+   77 statementIf: KW_IF '(' expr ')' statementComplex .  [BOOL, KW_IF, KW_FOR, KW_WHILE, KW_BREAK, KW_CONTINUE, KW_NOT, KW_RETURN, STRING, INTEGER, REAL, IDENTIFIER, '+', '-', '(', '{', '}', ';']
+   78            | KW_IF '(' expr ')' statementComplex . KW_ELSE statementComplex
+
+    KW_ELSE  shift, and go to state 163
+
+    $default  reduce using rule 77 (statementIf)
+
+    Conflict between rule 77 and token KW_ELSE resolved as shift (')' < KW_ELSE).
+
+
+State 161
+
+   36 expr: expr . '+' expr
+   37     | expr . '-' expr
+   38     | expr . '*' expr
+   39     | expr . '/' expr
+   40     | expr . '%' expr
+   41     | expr . POWER expr
+   42     | expr . EQ expr
+   43     | expr . NEQ expr
+   44     | expr . LE expr
+   45     | expr . LT expr
+   46     | expr . GE expr
+   47     | expr . GT expr
+   48     | expr . KW_AND expr
+   49     | expr . KW_OR expr
+   75 statementFor: KW_FOR '(' statement ';' expr . ';' statement ')' statementComplex
+
+    KW_AND  shift, and go to state 62
+    KW_OR   shift, and go to state 63
+    POWER   shift, and go to state 64
+    EQ      shift, and go to state 65
+    NEQ     shift, and go to state 66
+    LT      shift, and go to state 67
+    LE      shift, and go to state 68
+    GT      shift, and go to state 69
+    GE      shift, and go to state 70
+    '+'     shift, and go to state 71
+    '-'     shift, and go to state 72
+    '*'     shift, and go to state 73
+    '/'     shift, and go to state 74
+    '%'     shift, and go to state 75
+    ';'     shift, and go to state 164
 
 
 State 162
 
-   73 statementFor: KW_FOR '(' statement ';' expr ';' statement . ')' statementComplex
+   76 statementWhile: KW_WHILE '(' expr ')' statementComplex .
 
-    ')'  shift, and go to state 163
+    $default  reduce using rule 76 (statementWhile)
 
 
 State 163
@@ -3932,56 +4107,196 @@ State 163
    48     | . expr KW_AND expr
    49     | . expr KW_OR expr
    50     | . KW_NOT expr
-   51     | . '(' expr ')'
-   52 value: . INTEGER
-   53      | . BOOL
-   54      | . REAL
-   55      | . STRING
-   61 statementComplex: . ';'
-   62                 | . statement ';'
-   63                 | . '{' statementList '}'
-   64                 | . statementFor
-   65                 | . statementWhile
-   66                 | . statementIf
-   67                 | . KW_BREAK ';'
-   68                 | . KW_CONTINUE ';'
-   69                 | . KW_RETURN expr ';'
-   70                 | . KW_RETURN ';'
-   71 statement: . IDENTIFIER ASSIGN expr
-   72          | . expr
-   73 statementFor: . KW_FOR '(' statement ';' expr ';' statement ')' statementComplex
-   73             | KW_FOR '(' statement ';' expr ';' statement ')' . statementComplex
-   74 statementWhile: . KW_WHILE '(' expr ')' statementComplex
-   75 statementIf: . KW_IF '(' expr ')' statementComplex
-   76            | . statementIf KW_ELSE statementComplex
+   51     | . '+' expr
+   52     | . '-' expr
+   53     | . '(' expr ')'
+   54 value: . INTEGER
+   55      | . BOOL
+   56      | . REAL
+   57      | . STRING
+   63 statementComplex: . ';'
+   64                 | . statement ';'
+   65                 | . '{' statementList '}'
+   66                 | . statementFor
+   67                 | . statementWhile
+   68                 | . statementIf
+   69                 | . KW_BREAK ';'
+   70                 | . KW_CONTINUE ';'
+   71                 | . KW_RETURN expr ';'
+   72                 | . KW_RETURN ';'
+   73 statement: . IDENTIFIER ASSIGN expr
+   74          | . expr
+   75 statementFor: . KW_FOR '(' statement ';' expr ';' statement ')' statementComplex
+   76 statementWhile: . KW_WHILE '(' expr ')' statementComplex
+   77 statementIf: . KW_IF '(' expr ')' statementComplex
+   78            | . KW_IF '(' expr ')' statementComplex KW_ELSE statementComplex
+   78            | KW_IF '(' expr ')' statementComplex KW_ELSE . statementComplex
 
     BOOL         shift, and go to state 36
-    KW_IF        shift, and go to state 113
-    KW_FOR       shift, and go to state 114
-    KW_WHILE     shift, and go to state 115
-    KW_BREAK     shift, and go to state 116
-    KW_CONTINUE  shift, and go to state 117
+    KW_IF        shift, and go to state 117
+    KW_FOR       shift, and go to state 118
+    KW_WHILE     shift, and go to state 119
+    KW_BREAK     shift, and go to state 120
+    KW_CONTINUE  shift, and go to state 121
     KW_NOT       shift, and go to state 37
-    KW_RETURN    shift, and go to state 118
+    KW_RETURN    shift, and go to state 122
     STRING       shift, and go to state 38
     INTEGER      shift, and go to state 39
     REAL         shift, and go to state 40
-    IDENTIFIER   shift, and go to state 119
-    '('          shift, and go to state 42
-    '{'          shift, and go to state 120
-    ';'          shift, and go to state 121
+    IDENTIFIER   shift, and go to state 123
+    '+'          shift, and go to state 42
+    '-'          shift, and go to state 43
+    '('          shift, and go to state 44
+    '{'          shift, and go to state 124
+    ';'          shift, and go to state 125
 
-    expr              go to state 125
-    value             go to state 44
-    statementComplex  go to state 164
-    statement         go to state 128
-    statementFor      go to state 129
-    statementWhile    go to state 130
-    statementIf       go to state 131
+    expr              go to state 129
+    value             go to state 46
+    statementComplex  go to state 165
+    statement         go to state 132
+    statementFor      go to state 133
+    statementWhile    go to state 134
+    statementIf       go to state 135
 
 
 State 164
 
-   73 statementFor: KW_FOR '(' statement ';' expr ';' statement ')' statementComplex .
+   31 expr: . value
+   32     | . IDENTIFIER
+   33     | . IDENTIFIER '[' expr ']'
+   34     | . IDENTIFIER '(' ')'
+   35     | . IDENTIFIER '(' functionInputs ')'
+   36     | . expr '+' expr
+   37     | . expr '-' expr
+   38     | . expr '*' expr
+   39     | . expr '/' expr
+   40     | . expr '%' expr
+   41     | . expr POWER expr
+   42     | . expr EQ expr
+   43     | . expr NEQ expr
+   44     | . expr LE expr
+   45     | . expr LT expr
+   46     | . expr GE expr
+   47     | . expr GT expr
+   48     | . expr KW_AND expr
+   49     | . expr KW_OR expr
+   50     | . KW_NOT expr
+   51     | . '+' expr
+   52     | . '-' expr
+   53     | . '(' expr ')'
+   54 value: . INTEGER
+   55      | . BOOL
+   56      | . REAL
+   57      | . STRING
+   73 statement: . IDENTIFIER ASSIGN expr
+   74          | . expr
+   75 statementFor: KW_FOR '(' statement ';' expr ';' . statement ')' statementComplex
 
-    $default  reduce using rule 73 (statementFor)
+    BOOL        shift, and go to state 36
+    KW_NOT      shift, and go to state 37
+    STRING      shift, and go to state 38
+    INTEGER     shift, and go to state 39
+    REAL        shift, and go to state 40
+    IDENTIFIER  shift, and go to state 123
+    '+'         shift, and go to state 42
+    '-'         shift, and go to state 43
+    '('         shift, and go to state 44
+
+    expr       go to state 129
+    value      go to state 46
+    statement  go to state 166
+
+
+State 165
+
+   78 statementIf: KW_IF '(' expr ')' statementComplex KW_ELSE statementComplex .
+
+    $default  reduce using rule 78 (statementIf)
+
+
+State 166
+
+   75 statementFor: KW_FOR '(' statement ';' expr ';' statement . ')' statementComplex
+
+    ')'  shift, and go to state 167
+
+
+State 167
+
+   31 expr: . value
+   32     | . IDENTIFIER
+   33     | . IDENTIFIER '[' expr ']'
+   34     | . IDENTIFIER '(' ')'
+   35     | . IDENTIFIER '(' functionInputs ')'
+   36     | . expr '+' expr
+   37     | . expr '-' expr
+   38     | . expr '*' expr
+   39     | . expr '/' expr
+   40     | . expr '%' expr
+   41     | . expr POWER expr
+   42     | . expr EQ expr
+   43     | . expr NEQ expr
+   44     | . expr LE expr
+   45     | . expr LT expr
+   46     | . expr GE expr
+   47     | . expr GT expr
+   48     | . expr KW_AND expr
+   49     | . expr KW_OR expr
+   50     | . KW_NOT expr
+   51     | . '+' expr
+   52     | . '-' expr
+   53     | . '(' expr ')'
+   54 value: . INTEGER
+   55      | . BOOL
+   56      | . REAL
+   57      | . STRING
+   63 statementComplex: . ';'
+   64                 | . statement ';'
+   65                 | . '{' statementList '}'
+   66                 | . statementFor
+   67                 | . statementWhile
+   68                 | . statementIf
+   69                 | . KW_BREAK ';'
+   70                 | . KW_CONTINUE ';'
+   71                 | . KW_RETURN expr ';'
+   72                 | . KW_RETURN ';'
+   73 statement: . IDENTIFIER ASSIGN expr
+   74          | . expr
+   75 statementFor: . KW_FOR '(' statement ';' expr ';' statement ')' statementComplex
+   75             | KW_FOR '(' statement ';' expr ';' statement ')' . statementComplex
+   76 statementWhile: . KW_WHILE '(' expr ')' statementComplex
+   77 statementIf: . KW_IF '(' expr ')' statementComplex
+   78            | . KW_IF '(' expr ')' statementComplex KW_ELSE statementComplex
+
+    BOOL         shift, and go to state 36
+    KW_IF        shift, and go to state 117
+    KW_FOR       shift, and go to state 118
+    KW_WHILE     shift, and go to state 119
+    KW_BREAK     shift, and go to state 120
+    KW_CONTINUE  shift, and go to state 121
+    KW_NOT       shift, and go to state 37
+    KW_RETURN    shift, and go to state 122
+    STRING       shift, and go to state 38
+    INTEGER      shift, and go to state 39
+    REAL         shift, and go to state 40
+    IDENTIFIER   shift, and go to state 123
+    '+'          shift, and go to state 42
+    '-'          shift, and go to state 43
+    '('          shift, and go to state 44
+    '{'          shift, and go to state 124
+    ';'          shift, and go to state 125
+
+    expr              go to state 129
+    value             go to state 46
+    statementComplex  go to state 168
+    statement         go to state 132
+    statementFor      go to state 133
+    statementWhile    go to state 134
+    statementIf       go to state 135
+
+
+State 168
+
+   75 statementFor: KW_FOR '(' statement ';' expr ';' statement ')' statementComplex .
+
+    $default  reduce using rule 75 (statementFor)

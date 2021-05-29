@@ -96,6 +96,7 @@ extern int line_num;
 %left '+' '-'
 %left '*' '/' '%'
 %right POWER
+%left REDUCE_PRIORITY
 %left KW_NOT
 %left '(' ')'
 %precedence KW_ELSE
@@ -225,9 +226,12 @@ expr:
   | expr KW_AND expr { $$ = template("%s && %s", $1, $3); }
   | expr KW_OR expr  { $$ = template("%s || %s", $1, $3); }
   | KW_NOT expr      { $$ = template("!%s", $2); }
+
+  | '+' expr %prec REDUCE_PRIORITY { $$ = template("+%s", $2); }
+  | '-' expr %prec REDUCE_PRIORITY { $$ = template("-%s", $2); }
   | '(' expr ')'   { $$ = template("(%s)", $2); }
   ;
-  ;
+  
 
 value:
   INTEGER
@@ -282,8 +286,8 @@ statementIf:
   KW_IF '(' expr ')' statementComplex {
     $$ = template("if(%s){\n%s\n}", $3, $5);
   }
-  | statementIf KW_ELSE statementComplex {
-    $$ = template("%s else {\n%s\n}", $1,$3);
+  | KW_IF '(' expr ')' statementComplex KW_ELSE statementComplex {
+    $$ = template("if (%s) %s else {\n%s\n}", $3, $5, $7);
   }
   ;
 
