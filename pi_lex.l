@@ -12,7 +12,7 @@ int line_num = 1;
 /*NUMBERS*/
 DIGIT  [0-9]
 NUM  {DIGIT}+
-INTEGER [1-9]({NUM}*)
+INTEGER ([1-9]({NUM}*)|0)
 DECIMAL (0|{INTEGER})"."{NUM}
 REAL [+-]?{DECIMAL}([eE][+-]?{INTEGER})?
 /*STRINGS*/
@@ -89,6 +89,7 @@ return      return KW_RETURN;
 \*\*  return POWER;
 "*"   return '*';
 "%"   return '%';
+"/"   return '/';
 ==   return EQ;
 !=   return NEQ;
 \<   return LT;

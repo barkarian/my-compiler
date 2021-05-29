@@ -9,6 +9,8 @@ extern int yylex(void);
 extern int line_num;
 %}
 
+%define parse.error verbose
+
 %union
 {
 	char* crepr;
@@ -65,19 +67,38 @@ extern int line_num;
 
 %start program
 
-%type <crepr> decl_list body decl
+%type <crepr> decl_list body decl declInsideBody decl_list_body
 //constvar
 %type <crepr>constDeclaration
 %type <crepr>constAssignments
 %type <crepr>varDeclaration
 %type <crepr>varAssignments
 %type <crepr>varAssignment
+//functions
+%type <crepr> functionDeclaration
+%type <crepr> functionParameters
+%type <crepr> functionInputs
 //assigments expr datatypes etc.
-%type <crepr>assignment
-%type <crepr>expr
-%type <crepr>value
+%type <crepr> assignment
+%type <crepr> expr
+%type <crepr> value
 %type <crepr> dataType
+%type <crepr> statementList
+%type <crepr> statement
+%type <crepr> statementFor
+%type <crepr> statementComplex
+%type <crepr> statementWhile
+%type <crepr> statementIf
 
+%left KW_OR
+%left KW_AND
+%left EQ NEQ LT LE GT GE
+%left '+' '-'
+%left '*' '/' '%'
+%right POWER
+%left KW_NOT
+%left '(' ')'
+%precedence KW_ELSE
 
 %%
 
@@ -105,12 +126,24 @@ decl_list decl { $$ = template("%s\n%s", $1, $2); }
 
 decl:
   constDeclaration ';' { $$ = template("%s;", $1); }
+  | varDeclaration ';' { $$ = template("%s;", $1); }
+  | functionDeclaration ';' { $$ = template("%s", $1); }
+  ;
+
+decl_list_body:
+  %empty {$$="";}
+  |decl_list_body declInsideBody { $$ = template("%s%s\n", $1, $2); }
+  ;
+
+declInsideBody:
+  constDeclaration ';' { $$ = template("%s;", $1); }
   |varDeclaration ';' { $$ = template("%s;", $1); }
   ;
 
-body:
-%empty { $$="faf";}
-;
+
+body: 
+  decl_list_body statementList  {$$ = template("%s%s", $1, $2);}
+  ;
 
 //const declarations
 
@@ -141,17 +174,59 @@ varAssignment:
   | IDENTIFIER '[' ']'         { $$ = template("*%s", $1); }
   ;
 
-//functionsDeclaration
+//functionsDeclaration------------
+
+functionDeclaration: 
+  KW_FUNC IDENTIFIER '(' functionParameters ')' dataType '{' body '}' {
+    $$ = template("%s %s(%s){\n%s}", $6, $2, $4, $8);
+  };
+
+functionParameters:
+  %empty { $$ = ""; }
+  |IDENTIFIER dataType  { $$ = template("%s %s", $2, $1); }
+  |functionParameters ',' IDENTIFIER dataType  { $$ = template("%s,%s %s", $1, $4, $3); }
+  ;
+
 
 //useful everywhere
+
 assignment:
   IDENTIFIER ASSIGN expr                               { $$ = template("%s = %s", $1, $3); }
   | IDENTIFIER '[' INTEGER ']' ASSIGN expr             { $$ = template("%s[%s] = %s", $1, $3, $6); }
   | IDENTIFIER '[' ']' ASSIGN expr                     { $$ = template("*%s = %s", $1, $5); }
   ;
 
+functionInputs:
+  expr
+  | functionInputs ',' expr  { $$ = template("%s, %s", $1, $3); }
+  ;
+
 expr: 
   value
+  | IDENTIFIER
+  | IDENTIFIER '[' expr ']' { $$ = template("%s[%s]", $1, $3); }
+  | IDENTIFIER '(' ')' { $$ = template("%s()", $1); }
+  | IDENTIFIER '(' functionInputs ')' { $$ = template("%s(%s)", $1, $3); }
+
+  | expr '+' expr  { $$ = template("%s + %s", $1, $3); }
+  | expr '-' expr  { $$ = template("%s - %s", $1, $3); }
+  | expr '*' expr  { $$ = template("%s * %s", $1, $3); }
+  | expr '/' expr  { $$ = template("%s / %s", $1, $3); }
+
+  | expr '%' expr  { $$ = template("((int) %s) %% ((int) %s)", $1, $3); }
+  | expr POWER expr { $$ = template("pow(%s, %s)", $1, $3); }
+
+  | expr EQ expr  { $$ = template("%s == %s", $1, $3); }
+  | expr NEQ expr  { $$ = template("%s != %s", $1, $3); }
+  | expr LE expr  { $$ = template("%s <= %s", $1, $3); }
+  | expr LT expr   { $$ = template("%s < %s", $1, $3); }
+  | expr GE expr  { $$ = template("%s >= %s", $1, $3); }
+  | expr GT expr   { $$ = template("%s > %s", $1, $3); }
+  | expr KW_AND expr { $$ = template("%s && %s", $1, $3); }
+  | expr KW_OR expr  { $$ = template("%s || %s", $1, $3); }
+  | KW_NOT expr      { $$ = template("!%s", $2); }
+  | '(' expr ')'   { $$ = template("(%s)", $2); }
+  ;
   ;
 
 value:
@@ -166,6 +241,59 @@ dataType:
   |KW_BOOL { $$ = "int"; }
   |KW_STRING  { $$ = "char*"; }
   ;
+
+  //statements------------
+statementList:
+  statementComplex                  { $$ = template("%s", $1); }
+  | statementList statementComplex { $$ = template("%s\n%s", $1, $2); }
+  ;
+
+statementComplex:
+  ';' {$$ = ";";}
+  | statement ';' { $$ = template("%s;", $1); }
+  | '{' statementList '}' { $$ = template("%s", $2); }
+  | statementFor { $$ = $1; }
+  | statementWhile { $$ = $1; }
+  | statementIf { $$ = $1; }
+  | KW_BREAK ';' {$$ = "break;"; }
+  | KW_CONTINUE ';' {$$ = "continue;"; }
+  | KW_RETURN expr ';' { $$ = template("return %s;", $2); }
+  | KW_RETURN ';' {$$ = "return;"; }
+  ;
+
+statement:
+  IDENTIFIER ASSIGN expr    { $$ = template("%s = %s", $1, $3); }
+  | expr  { $$ = template("%s", $1); }
+  ;
+
+statementFor:
+  KW_FOR '(' statement ';' expr ';' statement ')' statementComplex {
+    $$ = template("for(%s; %s; %s){\n%s\n}", $3, $5, $7, $9);
+  }
+  ;
+
+statementWhile:
+  KW_WHILE '(' expr ')' statementComplex {
+    $$ = template("while(%s){\n%s\n}", $3, $5);
+  }
+  ;
+
+statementIf:
+  KW_IF '(' expr ')' statementComplex {
+    $$ = template("if(%s){\n%s\n}", $3, $5);
+  }
+  | statementIf KW_ELSE statementComplex {
+    $$ = template("%s else {\n%s\n}", $1,$3);
+  }
+  ;
+
+
+  // | statementWhile
+  // | statementIf
+  ;
+  
+  
+
 
 
 %%
