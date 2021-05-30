@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <string.h>		
 #include "cgen.h"
+#include <math.h> //for pow function
 
 extern int yylex(void);
 extern int line_num;
@@ -88,9 +89,8 @@ extern int line_num;
 %left GT LT
 %left EQ
 %right POWER
-%left '%'
 %right '+' '-'
-%left '*' '/'
+%left '*' '/' '%'
 %left REDUCE_PRIORITY //not a token /used with prec to specify priority
 %right KW_NOT
 %left '(' ')'

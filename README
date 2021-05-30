@@ -9,12 +9,12 @@ gcc -o mycomp pi_parser.tab.c lex.yy.c cgen.c -lfl
 
 ##-------------------------------------------------
 ##RUN WITH MAKE FILE
-##
-##Description:
-##takes the myprog.pi and create a myprog.c from it
 ##-------------------------------------------------
 
-make /path/myprog.c
+#takes the myprog.pi and create a myprog.c from it
+    make /path/myprog.c
+#keeps only all the programs .pi and their translations and the src code
+    make clean
 
 
 //resources that helped me

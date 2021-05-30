@@ -14,7 +14,7 @@ mycomp: pi_parser.tab.c pi_parser.tab.h lex.yy.c cgen.c cgen.h
 #"$@" is the target file something.pi
 %.c: %.pi mycomp
 	./mycomp < $< > $@
-	cat $@
+	#cat $@
 
 clean:
 	rm lex.yy.c pi_parser.tab.c pi_parser.tab.h
