@@ -29,6 +29,7 @@ extern int line_num;
    */
 %token KW_IF
 %token KW_ELSE
+%token KW_ELSE_IF
 %token KW_FOR
 %token KW_WHILE
 %token KW_BREAK
@@ -90,16 +91,30 @@ extern int line_num;
 %type <crepr> statementWhile
 %type <crepr> statementIf
 
+//priority for complex statements
+%left first //not a token
+%left second //not a token
+%left third //not a token
+
 %left KW_OR
 %left KW_AND
 %left EQ NEQ LT LE GT GE
 %left '+' '-'
 %left '*' '/' '%'
 %right POWER
-%left REDUCE_PRIORITY
+%left REDUCE_PRIORITY //not a token
 %left KW_NOT
 %left '(' ')'
+
+%precedence IF
+%precedence KW_ELSE_IF
 %precedence KW_ELSE
+
+// %precedence KW_ELSE
+// %precedence KW_ELSE_IF
+// %precedence IF
+// %left KW_ELSE
+// %left KW_IF
 
 %%
 
@@ -214,7 +229,7 @@ expr:
   | expr '*' expr  { $$ = template("%s * %s", $1, $3); }
   | expr '/' expr  { $$ = template("%s / %s", $1, $3); }
 
-  | expr '%' expr  { $$ = template("((int) %s) %% ((int) %s)", $1, $3); }
+  | expr '%' expr  { $$ = template("%s %% %s", $1, $3); }
   | expr POWER expr { $$ = template("pow(%s, %s)", $1, $3); }
 
   | expr EQ expr  { $$ = template("%s == %s", $1, $3); }
@@ -264,6 +279,8 @@ statementComplex:
   | KW_RETURN expr ';' { $$ = template("return %s;", $2); }
   | KW_RETURN ';' {$$ = "return;"; }
   ;
+  
+  
 
 statement:
   IDENTIFIER ASSIGN expr    { $$ = template("%s = %s", $1, $3); }
@@ -282,15 +299,43 @@ statementWhile:
   }
   ;
 
+// statementIf:
+//   KW_IF '(' expr ')' statementComplex {
+//     $$ = template("if(%s){\n%s\n}", $3, $5);
+//   }
+//   // | KW_IF '(' expr ')' statementComplex KW_ELSE statementComplex {
+//   //   $$ = template("if (%s) %s else {\n%s\n}", $3, $5, $7);
+//   // }
+//   |statementIf KW_ELSE_IF '(' expr ')' statementComplex{
+//     $$ = template("%s else if(%s) {\n%s\n}", $1, $4, $6);
+//   }
+//   | statementIf KW_ELSE statementComplex{
+//     $$ = template("%s else {\n%s\n}", $1, $3);
+//   }
+  
+//   ;
+
 statementIf:
   KW_IF '(' expr ')' statementComplex {
     $$ = template("if(%s){\n%s\n}", $3, $5);
   }
-  | KW_IF '(' expr ')' statementComplex KW_ELSE statementComplex {
-    $$ = template("if (%s) %s else {\n%s\n}", $3, $5, $7);
+  // | KW_IF '(' expr ')' statementComplex KW_ELSE statementComplex {
+  //   $$ = template("if (%s) %s else {\n%s\n}", $3, $5, $7);
+  // }
+  |statementIf KW_ELSE_IF '(' expr ')' statementComplex{
+    $$ = template("%s else if(%s) {\n%s\n}", $1, $4, $6);
   }
+  | statementIf KW_ELSE statementComplex{
+    $$ = template("%s else {\n%s\n}", $1, $3);
+  }
+  
   ;
 
+  
+
+// first
+// second
+// third
 
   // | statementWhile
   // | statementIf

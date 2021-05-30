@@ -10,3 +10,6 @@ gcc -o mycomp pi_parser.tab.c lex.yy.c cgen.c -lfl
 flex pi_lex.l
 gcc lex.yy.c -lfl
 ./a.out < ./test_files/myprog.pi 
+
+//resources that helped me
+https://www.gnu.org/software/bison/manual/html_node/Contextual-Precedence.html
