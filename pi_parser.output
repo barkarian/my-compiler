@@ -1005,39 +1005,24 @@ State 56
    47     | expr . GT expr
    48     | expr . KW_AND expr
    49     | expr . KW_OR expr
-   50     | KW_NOT expr .  [KW_INT, KW_STRING, KW_BOOL, ')', ';', ',', ']']
-
-    KW_AND  shift, and go to state 62
-    KW_OR   shift, and go to state 63
-    POWER   shift, and go to state 64
-    EQ      shift, and go to state 65
-    NEQ     shift, and go to state 66
-    LT      shift, and go to state 67
-    LE      shift, and go to state 68
-    GT      shift, and go to state 69
-    GE      shift, and go to state 70
-    '%'     shift, and go to state 71
-    '+'     shift, and go to state 72
-    '-'     shift, and go to state 73
-    '*'     shift, and go to state 74
-    '/'     shift, and go to state 75
+   50     | KW_NOT expr .  [KW_INT, KW_STRING, KW_BOOL, KW_AND, KW_OR, POWER, EQ, NEQ, LT, LE, GT, GE, '%', '+', '-', '*', '/', ')', ';', ',', ']']
 
     $default  reduce using rule 50 (expr)
 
-    Conflict between rule 50 and token KW_AND resolved as shift (KW_NOT < KW_AND).
-    Conflict between rule 50 and token KW_OR resolved as shift (KW_NOT < KW_OR).
-    Conflict between rule 50 and token POWER resolved as shift (KW_NOT < POWER).
-    Conflict between rule 50 and token EQ resolved as shift (KW_NOT < EQ).
-    Conflict between rule 50 and token NEQ resolved as shift (KW_NOT < NEQ).
-    Conflict between rule 50 and token LT resolved as shift (KW_NOT < LT).
-    Conflict between rule 50 and token LE resolved as shift (KW_NOT < LE).
-    Conflict between rule 50 and token GT resolved as shift (KW_NOT < GT).
-    Conflict between rule 50 and token GE resolved as shift (KW_NOT < GE).
-    Conflict between rule 50 and token '%' resolved as shift (KW_NOT < '%').
-    Conflict between rule 50 and token '+' resolved as shift (KW_NOT < '+').
-    Conflict between rule 50 and token '-' resolved as shift (KW_NOT < '-').
-    Conflict between rule 50 and token '*' resolved as shift (KW_NOT < '*').
-    Conflict between rule 50 and token '/' resolved as shift (KW_NOT < '/').
+    Conflict between rule 50 and token KW_AND resolved as reduce (KW_AND < KW_NOT).
+    Conflict between rule 50 and token KW_OR resolved as reduce (KW_OR < KW_NOT).
+    Conflict between rule 50 and token POWER resolved as reduce (POWER < KW_NOT).
+    Conflict between rule 50 and token EQ resolved as reduce (EQ < KW_NOT).
+    Conflict between rule 50 and token NEQ resolved as reduce (NEQ < KW_NOT).
+    Conflict between rule 50 and token LT resolved as reduce (LT < KW_NOT).
+    Conflict between rule 50 and token LE resolved as reduce (LE < KW_NOT).
+    Conflict between rule 50 and token GT resolved as reduce (GT < KW_NOT).
+    Conflict between rule 50 and token GE resolved as reduce (GE < KW_NOT).
+    Conflict between rule 50 and token '%' resolved as reduce ('%' < KW_NOT).
+    Conflict between rule 50 and token '+' resolved as reduce ('+' < KW_NOT).
+    Conflict between rule 50 and token '-' resolved as reduce ('-' < KW_NOT).
+    Conflict between rule 50 and token '*' resolved as reduce ('*' < KW_NOT).
+    Conflict between rule 50 and token '/' resolved as reduce ('/' < KW_NOT).
 
 
 State 57
@@ -2170,7 +2155,7 @@ State 90
    39     | expr . '/' expr
    40     | expr . '%' expr
    41     | expr . POWER expr
-   41     | expr POWER expr .  [KW_INT, KW_STRING, KW_BOOL, KW_AND, KW_OR, POWER, EQ, NEQ, LT, LE, GT, GE, ')', ';', ',', ']']
+   41     | expr POWER expr .  [KW_INT, KW_STRING, KW_BOOL, KW_AND, KW_OR, EQ, NEQ, LT, LE, GT, GE, ')', ';', ',', ']']
    42     | expr . EQ expr
    43     | expr . NEQ expr
    44     | expr . LE expr
@@ -2180,17 +2165,18 @@ State 90
    48     | expr . KW_AND expr
    49     | expr . KW_OR expr
 
-    '%'  shift, and go to state 71
-    '+'  shift, and go to state 72
-    '-'  shift, and go to state 73
-    '*'  shift, and go to state 74
-    '/'  shift, and go to state 75
+    POWER  shift, and go to state 64
+    '%'    shift, and go to state 71
+    '+'    shift, and go to state 72
+    '-'    shift, and go to state 73
+    '*'    shift, and go to state 74
+    '/'    shift, and go to state 75
 
     $default  reduce using rule 41 (expr)
 
     Conflict between rule 41 and token KW_AND resolved as reduce (KW_AND < POWER).
     Conflict between rule 41 and token KW_OR resolved as reduce (KW_OR < POWER).
-    Conflict between rule 41 and token POWER resolved as reduce (%left POWER).
+    Conflict between rule 41 and token POWER resolved as shift (%right POWER).
     Conflict between rule 41 and token EQ resolved as reduce (EQ < POWER).
     Conflict between rule 41 and token NEQ resolved as reduce (NEQ < POWER).
     Conflict between rule 41 and token LT resolved as reduce (LT < POWER).
@@ -2519,7 +2505,7 @@ State 97
 State 98
 
    36 expr: expr . '+' expr
-   36     | expr '+' expr .  [KW_INT, KW_STRING, KW_BOOL, KW_AND, KW_OR, POWER, EQ, NEQ, LT, LE, GT, GE, '%', '+', '-', ')', ';', ',', ']']
+   36     | expr '+' expr .  [KW_INT, KW_STRING, KW_BOOL, KW_AND, KW_OR, POWER, EQ, NEQ, LT, LE, GT, GE, '%', ')', ';', ',', ']']
    37     | expr . '-' expr
    38     | expr . '*' expr
    39     | expr . '/' expr
@@ -2534,6 +2520,8 @@ State 98
    48     | expr . KW_AND expr
    49     | expr . KW_OR expr
 
+    '+'  shift, and go to state 72
+    '-'  shift, and go to state 73
     '*'  shift, and go to state 74
     '/'  shift, and go to state 75
 
@@ -2549,8 +2537,8 @@ State 98
     Conflict between rule 36 and token GT resolved as reduce (GT < '+').
     Conflict between rule 36 and token GE resolved as reduce (GE < '+').
     Conflict between rule 36 and token '%' resolved as reduce ('%' < '+').
-    Conflict between rule 36 and token '+' resolved as reduce (%left '+').
-    Conflict between rule 36 and token '-' resolved as reduce (%left '-').
+    Conflict between rule 36 and token '+' resolved as shift (%right '+').
+    Conflict between rule 36 and token '-' resolved as shift (%right '-').
     Conflict between rule 36 and token '*' resolved as shift ('+' < '*').
     Conflict between rule 36 and token '/' resolved as shift ('+' < '/').
 
@@ -2559,7 +2547,7 @@ State 99
 
    36 expr: expr . '+' expr
    37     | expr . '-' expr
-   37     | expr '-' expr .  [KW_INT, KW_STRING, KW_BOOL, KW_AND, KW_OR, POWER, EQ, NEQ, LT, LE, GT, GE, '%', '+', '-', ')', ';', ',', ']']
+   37     | expr '-' expr .  [KW_INT, KW_STRING, KW_BOOL, KW_AND, KW_OR, POWER, EQ, NEQ, LT, LE, GT, GE, '%', ')', ';', ',', ']']
    38     | expr . '*' expr
    39     | expr . '/' expr
    40     | expr . '%' expr
@@ -2573,6 +2561,8 @@ State 99
    48     | expr . KW_AND expr
    49     | expr . KW_OR expr
 
+    '+'  shift, and go to state 72
+    '-'  shift, and go to state 73
     '*'  shift, and go to state 74
     '/'  shift, and go to state 75
 
@@ -2588,8 +2578,8 @@ State 99
     Conflict between rule 37 and token GT resolved as reduce (GT < '-').
     Conflict between rule 37 and token GE resolved as reduce (GE < '-').
     Conflict between rule 37 and token '%' resolved as reduce ('%' < '-').
-    Conflict between rule 37 and token '+' resolved as reduce (%left '+').
-    Conflict between rule 37 and token '-' resolved as reduce (%left '-').
+    Conflict between rule 37 and token '+' resolved as shift (%right '+').
+    Conflict between rule 37 and token '-' resolved as shift (%right '-').
     Conflict between rule 37 and token '*' resolved as shift ('-' < '*').
     Conflict between rule 37 and token '/' resolved as shift ('-' < '/').
 

@@ -1,15 +1,21 @@
+##-------------
+##RUN WITH COMMANDS
+##-------------
+
 bison -d -v -r all pi_parser.y
 flex pi_lex.l
 gcc -o mycomp pi_parser.tab.c lex.yy.c cgen.c -lfl
-./mycomp< ../test_files/myprog.pi >../test_files/myprog.c
+./mycomp< /path/myprog.pi > /path/myprog.c
 
-##-------------
-##RUN ONLY FLEX
-##-------------
+##-------------------------------------------------
+##RUN WITH MAKE FILE
+##
+##Description:
+##takes the myprog.pi and create a myprog.c from it
+##-------------------------------------------------
 
-flex pi_lex.l
-gcc lex.yy.c -lfl
-./a.out < ./test_files/myprog.pi 
+make /path/myprog.c
+
 
 //resources that helped me
 https://www.gnu.org/software/bison/manual/html_node/Contextual-Precedence.html
