@@ -125,6 +125,7 @@ decl:
   constDeclaration ';' { $$ = template("%s;", $1); }
   | varDeclaration ';' { $$ = template("%s;", $1); }
   | functionDeclaration ';' { $$ = template("%s", $1); }
+  | functionDeclaration { $$ = template("%s", $1); }
   ;
 
 decl_list_body:
@@ -176,7 +177,7 @@ varAssignment:
 functionDeclaration: 
   KW_FUNC IDENTIFIER '(' functionParameters ')' dataType '{' body '}' {
     $$ = template("%s %s(%s){\n%s}", $6, $2, $4, $8);
-  };
+  }
 
 functionParameters:
   %empty { $$ = ""; }
