@@ -58,35 +58,30 @@ extern int yydebug;
     KW_CONST = 264,
     KW_IF = 265,
     KW_ELSE = 266,
-    KW_ELSE_IF = 267,
-    KW_FOR = 268,
-    KW_WHILE = 269,
-    KW_BREAK = 270,
-    KW_CONTINUE = 271,
-    KW_FUNC = 272,
-    KW_NIL = 273,
-    KW_AND = 274,
-    KW_OR = 275,
-    KW_NOT = 276,
-    KW_RETURN = 277,
-    KW_BEGIN = 278,
-    ASSIGN = 279,
-    STRING = 280,
-    INTEGER = 281,
-    REAL = 282,
-    IDENTIFIER = 283,
-    POWER = 284,
-    EQ = 285,
-    NEQ = 286,
-    LT = 287,
-    LE = 288,
-    GT = 289,
-    GE = 290,
-    first = 291,
-    second = 292,
-    third = 293,
-    REDUCE_PRIORITY = 294,
-    IF = 295
+    KW_FOR = 267,
+    KW_WHILE = 268,
+    KW_BREAK = 269,
+    KW_CONTINUE = 270,
+    KW_FUNC = 271,
+    KW_NIL = 272,
+    KW_AND = 273,
+    KW_OR = 274,
+    KW_NOT = 275,
+    KW_RETURN = 276,
+    KW_BEGIN = 277,
+    ASSIGN = 278,
+    STRING = 279,
+    INTEGER = 280,
+    REAL = 281,
+    IDENTIFIER = 282,
+    POWER = 283,
+    EQ = 284,
+    NEQ = 285,
+    LT = 286,
+    LE = 287,
+    GT = 288,
+    GE = 289,
+    REDUCE_PRIORITY = 290
   };
 #endif
 
@@ -98,7 +93,7 @@ union YYSTYPE
 
 	char* crepr;
 
-#line 102 "pi_parser.tab.h"
+#line 97 "pi_parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

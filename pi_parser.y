@@ -15,7 +15,6 @@ extern int line_num;
 {
 	char* crepr;
 }
-
 //tokens
 %token KW_INT
 %token KW_REAL
@@ -23,20 +22,15 @@ extern int line_num;
 %token KW_BOOL
 %token <crepr> BOOL
 %token KW_VAR
-%token KW_CONST
-   /*
-   * logic literals
-   */
+%token KW_CONST  
+// logic literals
 %token KW_IF
 %token KW_ELSE
-%token KW_ELSE_IF
 %token KW_FOR
 %token KW_WHILE
 %token KW_BREAK
 %token KW_CONTINUE
-   /*
-   * function's literals
-   */
+//function's literals
 %token KW_FUNC
 %token KW_NIL
 %token KW_AND
@@ -58,16 +52,11 @@ extern int line_num;
 %token LE
 %token GT
 %token GE
- 
-// %token <crepr> STRING
 
-// %token KW_BEGIN
-// %token KW_FUNC
-
-// %token ASSIGN
-
+//specify the start
 %start program
 
+//types declarations
 %type <crepr> decl_list body decl declInsideBody decl_list_body
 //constvar
 %type <crepr>constDeclaration
@@ -88,33 +77,25 @@ extern int line_num;
 %type <crepr> statement
 %type <crepr> statementFor
 %type <crepr> statementComplex
+%type <crepr> statementComplexMinusIf
 %type <crepr> statementWhile
 %type <crepr> statementIf
 
-//priority for complex statements
-%left first //not a token
-%left second //not a token
-%left third //not a token
-
 %left KW_OR
 %left KW_AND
-%left EQ NEQ LT LE GT GE
-%left '+' '-'
-%left '*' '/' '%'
+%left NEQ
+%left GE LE
+%left GT LT
+%left EQ
 %right POWER
-%left REDUCE_PRIORITY //not a token
-%left KW_NOT
+%left '%'
+%right '+' '-'
+%left '*' '/'
+%left REDUCE_PRIORITY //not a token /used with prec to specify priority
+%right KW_NOT
 %left '(' ')'
 
-%precedence IF
-%precedence KW_ELSE_IF
-%precedence KW_ELSE
-
-// %precedence KW_ELSE
-// %precedence KW_ELSE_IF
-// %precedence IF
-// %left KW_ELSE
-// %left KW_IF
+%precedence KW_ELSE //specify precidence
 
 %%
 
@@ -267,19 +248,22 @@ statementList:
   | statementList statementComplex { $$ = template("%s\n%s", $1, $2); }
   ;
 
-statementComplex:
+statementComplexMinusIf:
   ';' {$$ = ";";}
   | statement ';' { $$ = template("%s;", $1); }
   | '{' statementList '}' { $$ = template("%s", $2); }
   | statementFor { $$ = $1; }
   | statementWhile { $$ = $1; }
-  | statementIf { $$ = $1; }
   | KW_BREAK ';' {$$ = "break;"; }
   | KW_CONTINUE ';' {$$ = "continue;"; }
   | KW_RETURN expr ';' { $$ = template("return %s;", $2); }
   | KW_RETURN ';' {$$ = "return;"; }
   ;
   
+statementComplex:
+  statementIf {$$=$1;}
+  | statementComplexMinusIf {$$=$1;}
+  ;
   
 
 statement:
@@ -299,50 +283,17 @@ statementWhile:
   }
   ;
 
-// statementIf:
-//   KW_IF '(' expr ')' statementComplex {
-//     $$ = template("if(%s){\n%s\n}", $3, $5);
-//   }
-//   // | KW_IF '(' expr ')' statementComplex KW_ELSE statementComplex {
-//   //   $$ = template("if (%s) %s else {\n%s\n}", $3, $5, $7);
-//   // }
-//   |statementIf KW_ELSE_IF '(' expr ')' statementComplex{
-//     $$ = template("%s else if(%s) {\n%s\n}", $1, $4, $6);
-//   }
-//   | statementIf KW_ELSE statementComplex{
-//     $$ = template("%s else {\n%s\n}", $1, $3);
-//   }
-  
-//   ;
-
 statementIf:
   KW_IF '(' expr ')' statementComplex {
     $$ = template("if(%s){\n%s\n}", $3, $5);
   }
-  // | KW_IF '(' expr ')' statementComplex KW_ELSE statementComplex {
-  //   $$ = template("if (%s) %s else {\n%s\n}", $3, $5, $7);
-  // }
-  |statementIf KW_ELSE_IF '(' expr ')' statementComplex{
-    $$ = template("%s else if(%s) {\n%s\n}", $1, $4, $6);
+  | KW_IF '(' expr ')' statementComplex KW_ELSE statementComplexMinusIf {
+    $$ = template("if(%s){\n%s\n} \nelse {\n%s\n}", $3, $5, $7);
   }
-  | statementIf KW_ELSE statementComplex{
-    $$ = template("%s else {\n%s\n}", $1, $3);
+  | KW_IF '(' expr ')' statementComplex KW_ELSE statementIf {
+    $$ = template("if (%s) %s \nelse %s", $3, $5, $7);
   }
-  
   ;
-
-  
-
-// first
-// second
-// third
-
-  // | statementWhile
-  // | statementIf
-  ;
-  
-  
-
 
 
 %%

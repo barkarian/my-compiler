@@ -47,7 +47,6 @@ const          return KW_CONST;
    */
 if          return KW_IF;
 else        return KW_ELSE;
-"else if"        return KW_ELSE_IF;
 for         return KW_FOR;
 while       return KW_WHILE;
 break       return KW_BREAK;
@@ -76,7 +75,7 @@ return      return KW_RETURN;
 {REAL}      {   yylval.crepr = strdup(yytext);
                 return REAL; } //yytext is the string content
 
-"else if" return KW_ELSE_IF;
+
 "="	return ASSIGN;
 ";" 	return ';';
 "," 	return ',';
